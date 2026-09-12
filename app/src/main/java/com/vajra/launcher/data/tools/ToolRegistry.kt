@@ -2,8 +2,12 @@ package com.vajra.launcher.data.tools
 
 import com.vajra.launcher.R
 import com.vajra.launcher.models.InstallationState
+import com.vajra.launcher.models.ToolAction
 import com.vajra.launcher.models.ToolCategory
+import com.vajra.launcher.models.ToolConfigOption
 import com.vajra.launcher.models.ToolDefinition
+import com.vajra.launcher.models.ToolDocumentation
+import com.vajra.launcher.models.ToolEnvironment
 
 object ToolRegistry {
 
@@ -123,10 +127,25 @@ object ToolRegistry {
             categoryId = "recon",
             description = "Network scanner",
             fullDescription = "Nmap is a powerful network scanning tool used to discover hosts, open ports, services, and more.",
+            environment = ToolEnvironment.DEBIAN,
             executable = "nmap",
             state = InstallationState.INSTALLED,
             iconRes = R.drawable.ic_cat_recon,
             version = "7.94",
+            quickActions = listOf(
+                ToolAction("quick_scan", "Quick Scan", "nmap -T4 -F {target}", "Fast scan top 100 ports"),
+                ToolAction("ping_sweep", "Ping Sweep", "nmap -sn {target}", "ICMP and ARP host discovery")
+            ),
+            advancedOptions = listOf(
+                ToolConfigOption("service_detection", "Service Version Detection", "-sV", defaultValue = true, "Probe open ports for service info"),
+                ToolConfigOption("os_detection", "OS Fingerprinting", "-O", defaultValue = false, "Enable OS detection"),
+                ToolConfigOption("aggressive_scan", "Aggressive Timing (-T4)", "-A", defaultValue = false, "Enable OS detection, version detection, script scanning, traceroute")
+            ),
+            documentation = ToolDocumentation(
+                manPage = "nmap(1)",
+                docsUrl = "https://nmap.org/book/man.html",
+                syntax = "nmap [Scan Type...] [Options] {target specification}"
+            ),
             examples = listOf(
                 "nmap -sS 192.168.1.0/24",
                 "nmap -A target.com",

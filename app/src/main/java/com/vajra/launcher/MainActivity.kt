@@ -62,6 +62,7 @@ class MainActivity : AppCompatActivity() {
         appRepository = AppRepository(this)
         searchProvider = SearchProvider(appRepository)
 
+        setupWindowInsets()
         setupBottomNavigation()
         setupBackNavigation()
 
@@ -84,6 +85,17 @@ class MainActivity : AppCompatActivity() {
         } else {
             binding.splashContainer.visibility = View.GONE
             navigateTo(Screen.Home, addToBackStack = false)
+        }
+    }
+
+    private fun setupWindowInsets() {
+        androidx.core.view.ViewCompat.setOnApplyWindowInsetsListener(binding.root) { _, insets ->
+            val statusBarInsets = insets.getInsets(androidx.core.view.WindowInsetsCompat.Type.statusBars())
+            val navBarInsets = insets.getInsets(androidx.core.view.WindowInsetsCompat.Type.navigationBars())
+
+            binding.root.setPadding(0, statusBarInsets.top, 0, 0)
+            binding.bottomNavContainer.setPadding(0, 0, 0, navBarInsets.bottom)
+            insets
         }
     }
 
@@ -113,6 +125,8 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private var lastBackPressTime = 0L
+
     private fun setupBackNavigation() {
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
@@ -122,15 +136,39 @@ class MainActivity : AppCompatActivity() {
                 } else if (currentScreen !is Screen.Home) {
                     navigateTo(Screen.Home, addToBackStack = false)
                 } else {
-                    // At Home screen root: minimize launcher to home
-                    moveTaskToBack(true)
+                    // Already at Home screen root of the launcher.
+                    // Never call moveTaskToBack(true) because minimizing a launcher leaves
+                    // the device showing only the wallpaper with no UI or apps!
+                    val currentTime = System.currentTimeMillis()
+                    if (currentTime - lastBackPressTime < 2000) {
+                        // Double-tap back on Home: safely hand off to alternate launcher
+                        appRepository.openDefaultLauncher()
+                    } else {
+                        lastBackPressTime = currentTime
+                        if (!appRepository.isVajraDefaultLauncher()) {
+                            android.widget.Toast.makeText(
+                                this@MainActivity,
+                                "Press BACK again to return to default launcher",
+                                android.widget.Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
                 }
             }
         })
     }
 
     fun navigateTo(screen: Screen, addToBackStack: Boolean = true) {
-        if (addToBackStack && currentScreen != null) {
+        hideKeyboard()
+
+        val isPrimaryTab = screen is Screen.Home ||
+                screen is Screen.CyberCategories ||
+                screen is Screen.Apps ||
+                screen is Screen.SystemInfo
+
+        if (isPrimaryTab) {
+            backStack.clear()
+        } else if (addToBackStack && currentScreen != null) {
             backStack.push(currentScreen)
         }
 
@@ -258,5 +296,12 @@ class MainActivity : AppCompatActivity() {
             label.typeface = if (isSelected) Typeface.DEFAULT_BOLD else Typeface.DEFAULT
             indicator.visibility = if (isSelected) View.VISIBLE else View.INVISIBLE
         }
+    }
+
+    private fun hideKeyboard() {
+        val imm = getSystemService(INPUT_METHOD_SERVICE) as? android.view.inputmethod.InputMethodManager
+        currentFocus?.let { view ->
+            imm?.hideSoftInputFromWindow(view.windowToken, 0)
+        } ?: imm?.hideSoftInputFromWindow(binding.root.windowToken, 0)
     }
 }

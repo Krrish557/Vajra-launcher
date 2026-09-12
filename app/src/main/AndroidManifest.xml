@@ -1,9 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <!-- Required for dynamic application discovery on Android 11+ (API 30+) -->
     <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES" />
+
+    <!-- Required for dynamic network telemetry (Wi-Fi, VPN, Cellular state) -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.BLUETOOTH" />
+
+    <!-- Required for Bluetooth adapter status detection on Android 10/11 -->
+    <uses-permission
+        android:name="android.permission.BLUETOOTH"
+        android:maxSdkVersion="30" />
 
     <application
         android:allowBackup="false"
@@ -15,8 +22,18 @@
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:windowSoftInputMode="adjustPan">
+            android:launchMode="singleTask"
+            android:stateNotNeeded="true"
+            android:windowSoftInputMode="adjustPan|stateHidden">
 
+            <!-- Android Home Launcher Integration -->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.HOME" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+
+            <!-- Standard Application Launcher for Development & Normal Launching -->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

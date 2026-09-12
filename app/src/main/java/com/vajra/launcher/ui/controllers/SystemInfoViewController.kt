@@ -35,6 +35,17 @@ class SystemInfoViewController(
     init {
         binding.systemBackBtn.setOnClickListener { onBack() }
         binding.systemSettingsBtn.setOnClickListener { onOpenCustomization() }
+        binding.cardSystemSettingsShortcut.setOnClickListener {
+            val context = container.context
+            try {
+                val intent = android.content.Intent(android.provider.Settings.ACTION_SETTINGS).apply {
+                    flags = android.content.Intent.FLAG_ACTIVITY_NEW_TASK
+                }
+                context.startActivity(intent)
+            } catch (_: Exception) {
+                android.widget.Toast.makeText(context, "Cannot open System Settings", android.widget.Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     fun start(scope: CoroutineScope) {

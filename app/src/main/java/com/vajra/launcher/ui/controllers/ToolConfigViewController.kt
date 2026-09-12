@@ -20,62 +20,84 @@ class ToolConfigViewController(
         false
     )
 
-    private var isServiceDetectChecked = true
-    private var isOsDetectChecked = false
-    private var isAggressiveChecked = false
+    private var isOpt1Checked = true
+    private var isOpt2Checked = false
+    private var isOpt3Checked = false
     private var isMoreOptionsExpanded = false
-
-    private val scanTypes = arrayOf(
-        "SYN Scan (-sS)",
-        "Connect Scan (-sT)",
-        "UDP Scan (-sU)",
-        "FIN Scan (-sF)",
-        "Ping Scan (-sn)"
-    )
 
     init {
         val tool = ToolRegistry.getTool(toolId) ?: ToolRegistry.tools.first()
         val context = container.context
 
-        binding.toolConfigTitle.text = "${tool.name} - Advanced"
+        binding.toolConfigTitle.text = "${tool.name} - Configuration"
 
         binding.toolConfigBackBtn.setOnClickListener {
             onBack()
         }
 
-        // Scan Type Selector Dialog
+        // Generic Scan / Mode options derived from ToolDefinition
+        val scanModes = if (tool.quickActions.isNotEmpty()) {
+            tool.quickActions.map { "${it.label} (${it.commandTemplate})" }.toTypedArray()
+        } else {
+            arrayOf(
+                "Standard Mode",
+                "Fast / Quick Scan",
+                "Verbose Analysis",
+                "Passive Discovery"
+            )
+        }
+
+        if (scanModes.isNotEmpty()) {
+            binding.selectedScanTypeText.text = scanModes.first()
+        }
+
         binding.spinnerScanType.setOnClickListener {
             AlertDialog.Builder(context)
-                .setTitle("Select Scan Type")
-                .setItems(scanTypes) { _, which ->
-                    binding.selectedScanTypeText.text = scanTypes[which]
+                .setTitle("Select ${tool.name} Execution Mode")
+                .setItems(scanModes) { _, which ->
+                    binding.selectedScanTypeText.text = scanModes[which]
                 }
                 .show()
         }
 
-        // Checkbox 1: Service Detection
+        // Option 1
+        val opt1 = tool.advancedOptions.getOrNull(0)
+        isOpt1Checked = opt1?.defaultValue ?: true
+        binding.checkServiceDetectionIcon.setImageResource(
+            if (isOpt1Checked) R.drawable.ic_checkbox_checked else R.drawable.ic_checkbox_unchecked
+        )
         binding.checkServiceDetection.setOnClickListener {
-            isServiceDetectChecked = !isServiceDetectChecked
+            isOpt1Checked = !isOpt1Checked
             binding.checkServiceDetectionIcon.setImageResource(
-                if (isServiceDetectChecked) R.drawable.ic_checkbox_checked
+                if (isOpt1Checked) R.drawable.ic_checkbox_checked
                 else R.drawable.ic_checkbox_unchecked
             )
         }
 
-        // Checkbox 2: OS Detection
+        // Option 2
+        val opt2 = tool.advancedOptions.getOrNull(1)
+        isOpt2Checked = opt2?.defaultValue ?: false
+        binding.checkOsDetectionIcon.setImageResource(
+            if (isOpt2Checked) R.drawable.ic_checkbox_checked else R.drawable.ic_checkbox_unchecked
+        )
         binding.checkOsDetection.setOnClickListener {
-            isOsDetectChecked = !isOsDetectChecked
+            isOpt2Checked = !isOpt2Checked
             binding.checkOsDetectionIcon.setImageResource(
-                if (isOsDetectChecked) R.drawable.ic_checkbox_checked
+                if (isOpt2Checked) R.drawable.ic_checkbox_checked
                 else R.drawable.ic_checkbox_unchecked
             )
         }
 
-        // Checkbox 3: Aggressive Scan
+        // Option 3
+        val opt3 = tool.advancedOptions.getOrNull(2)
+        isOpt3Checked = opt3?.defaultValue ?: false
+        binding.checkAggressiveScanIcon.setImageResource(
+            if (isOpt3Checked) R.drawable.ic_checkbox_checked else R.drawable.ic_checkbox_unchecked
+        )
         binding.checkAggressiveScan.setOnClickListener {
-            isAggressiveChecked = !isAggressiveChecked
+            isOpt3Checked = !isOpt3Checked
             binding.checkAggressiveScanIcon.setImageResource(
-                if (isAggressiveChecked) R.drawable.ic_checkbox_checked
+                if (isOpt3Checked) R.drawable.ic_checkbox_checked
                 else R.drawable.ic_checkbox_unchecked
             )
         }
@@ -87,28 +109,27 @@ class ToolConfigViewController(
             binding.moreOptionsChevron.text = if (isMoreOptionsExpanded) "▲" else "▼"
         }
 
-        // Run Scan Action
+        // Run Scan / Execution trigger
         binding.btnRunScan.setOnClickListener {
             val target = binding.inputTarget.text.toString().trim()
             val ports = binding.inputPorts.text.toString().trim()
-            val scanType = binding.selectedScanTypeText.text.toString()
 
             if (target.isEmpty()) {
-                Toast.makeText(context, "Please specify a scan target", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Please specify a target host or address", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
             val flags = mutableListOf<String>()
-            if (isServiceDetectChecked) flags.add("-sV")
-            if (isOsDetectChecked) flags.add("-O")
-            if (isAggressiveChecked) flags.add("-A")
+            if (isOpt1Checked) opt1?.let { flags.add(it.flag) } ?: flags.add("-v")
+            if (isOpt2Checked) opt2?.let { flags.add(it.flag) } ?: flags.add("-sV")
+            if (isOpt3Checked) opt3?.let { flags.add(it.flag) } ?: flags.add("-A")
             if (ports.isNotEmpty()) flags.add("-p $ports")
 
-            val constructedCmd = "${tool.executable} $scanType ${flags.joinToString(" ")} $target"
+            val constructedCmd = "${tool.executable} ${flags.joinToString(" ")} $target"
 
             AlertDialog.Builder(context)
-                .setTitle("Scan Prepared")
-                .setMessage("Generated Command:\n$constructedCmd\n\nExecution engine will be attached in a subsequent phase.")
+                .setTitle("${tool.name} Command Prepared")
+                .setMessage("Generated Command:\n$constructedCmd\n\nEnvironment: ${tool.environment.label}\nBinary: ${tool.executable}\n\nExecution engine will be attached in a subsequent phase.")
                 .setPositiveButton("OK", null)
                 .show()
         }

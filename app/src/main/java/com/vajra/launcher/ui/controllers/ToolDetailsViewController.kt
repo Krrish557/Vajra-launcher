@@ -65,9 +65,12 @@ class ToolDetailsViewController(
         }
 
         binding.btnQuickScan.setOnClickListener {
+            val action = tool.quickActions.firstOrNull()
+            val actionName = action?.label ?: "Quick Action"
+            val cmd = action?.commandTemplate ?: "${tool.executable} {target}"
             Toast.makeText(
                 context,
-                "Quick Scan: ${tool.executable} ready (execution engine deferred in v0.1)",
+                "$actionName: $cmd (Execution engine deferred in v0.1)",
                 Toast.LENGTH_LONG
             ).show()
         }
@@ -77,9 +80,14 @@ class ToolDetailsViewController(
         }
 
         binding.btnViewDocs.setOnClickListener {
+            val docs = tool.documentation
+            val syntaxMsg = docs?.syntax?.let { "\n\nSyntax:\n$it" } ?: ""
+            val manMsg = docs?.manPage?.let { "\nMan Page: $it" } ?: ""
+            val urlMsg = docs?.docsUrl?.let { "\nDocumentation: $it" } ?: ""
+
             AlertDialog.Builder(context)
                 .setTitle("${tool.name} Manual")
-                .setMessage("Environment: ${tool.environment}\nBinary: ${tool.executable}\nVersion: ${tool.version ?: "N/A"}\n\n${tool.fullDescription}\n\nUsage Examples:\n" + tool.examples.joinToString("\n"))
+                .setMessage("Environment: ${tool.environment.label}\nBinary: ${tool.executable}\nVersion: ${tool.version ?: "N/A"}$manMsg$urlMsg\n\n${tool.fullDescription}$syntaxMsg\n\nUsage Examples:\n" + tool.examples.joinToString("\n"))
                 .setPositiveButton("Close", null)
                 .show()
         }

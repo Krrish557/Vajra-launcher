@@ -19,7 +19,7 @@ import kotlinx.coroutines.withContext
 class AppsDrawerViewController(
     container: ViewGroup,
     private val appRepository: AppRepository,
-    scope: CoroutineScope
+    private val scope: CoroutineScope
 ) {
     val binding: ScreenAppsBinding = ScreenAppsBinding.inflate(
         LayoutInflater.from(container.context),
@@ -31,11 +31,24 @@ class AppsDrawerViewController(
     private val appAdapter: AppAdapter
 
     init {
-        binding.appsRecyclerView.layoutManager = LinearLayoutManager(container.context)
+        val context = container.context
+        binding.appsRecyclerView.layoutManager = LinearLayoutManager(context)
         appAdapter = AppAdapter(emptyList()) { app ->
             val launched = appRepository.launchApp(app.packageName)
             if (!launched) {
-                Toast.makeText(container.context, "Failed to launch ${app.label}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    context,
+                    "Cannot launch ${app.label}. App may have been uninstalled or disabled.",
+                    Toast.LENGTH_SHORT
+                ).show()
+                // Force refresh to remove uninstalled app from cached list
+                scope.launch {
+                    val freshApps = appRepository.getInstalledApps(forceRefresh = true)
+                    withContext(Dispatchers.Main) {
+                        allApps = freshApps
+                        filter(binding.appsSearchInput.text.toString())
+                    }
+                }
             }
         }
         binding.appsRecyclerView.adapter = appAdapter
@@ -43,7 +56,10 @@ class AppsDrawerViewController(
         binding.cardAndroidHandoff.setOnClickListener {
             val opened = appRepository.openDefaultLauncher()
             if (!opened) {
-                Toast.makeText(container.context, "Cannot open default launcher", Toast.LENGTH_SHORT).show()
+                val openedSettings = appRepository.openHomeSettings()
+                if (!openedSettings) {
+                    Toast.makeText(context, "Cannot open default Android launcher", Toast.LENGTH_SHORT).show()
+                }
             }
         }
 

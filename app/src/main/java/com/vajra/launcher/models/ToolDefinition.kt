@@ -8,10 +8,13 @@ data class ToolDefinition(
     val categoryId: String,
     val description: String,
     val fullDescription: String,
-    val environment: String = "debian",
+    val environment: ToolEnvironment = ToolEnvironment.DEBIAN,
     val executable: String,
     val state: InstallationState,
     @DrawableRes val iconRes: Int,
     val version: String? = null,
+    val quickActions: List<ToolAction> = emptyList(),
+    val advancedOptions: List<ToolConfigOption> = emptyList(),
+    val documentation: ToolDocumentation? = null,
     val examples: List<String> = emptyList()
 )

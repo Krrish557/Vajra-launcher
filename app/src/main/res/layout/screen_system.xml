@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/vajra_bg_dark"
@@ -74,6 +75,44 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:orientation="vertical" />
+
+        <!-- Android System Settings Shortcut Card -->
+        <LinearLayout
+            android:id="@+id/cardSystemSettingsShortcut"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:background="@drawable/bg_card_clickable"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="14dp">
+
+            <ImageView
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:contentDescription="@null"
+                android:src="@drawable/ic_settings_tune"
+                app:tint="@color/vajra_accent_blue" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_weight="1"
+                android:letterSpacing="0.04"
+                android:text="Open Android System Settings"
+                android:textColor="@color/vajra_text_primary"
+                android:textSize="13sp"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:contentDescription="@null"
+                android:src="@drawable/ic_chevron_right"
+                app:tint="@color/vajra_text_tertiary" />
+        </LinearLayout>
 
     </LinearLayout>
 </ScrollView>
