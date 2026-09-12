@@ -69,5 +69,6 @@ data class NetworkTelemetry(
 
 data class ConnectivityTelemetry(
     val isUsbHostSupported: Boolean,
-    val isOtgAvailable: Boolean
+    val isOtgAvailable: Boolean,
+    val isUsbDeviceConnected: Boolean = false
 )

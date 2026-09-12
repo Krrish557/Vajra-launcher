@@ -28,7 +28,7 @@ object RootDetector {
 
     fun detectRootStatus(): RootStatus {
         return try {
-            if (checkSuBinary() || checkMagiskDirectories() || checkPathForSu() || checkBuildTags()) {
+            if (checkSuBinary() || checkMagiskDirectories() || checkPathForSu() || checkWhichSu() || checkBuildTags()) {
                 RootStatus.AVAILABLE
             } else {
                 RootStatus.NOT_AVAILABLE
@@ -37,6 +37,17 @@ object RootDetector {
             RootStatus.UNKNOWN
         } catch (_: Exception) {
             RootStatus.UNKNOWN
+        }
+    }
+
+    private fun checkWhichSu(): Boolean {
+        return try {
+            val process = Runtime.getRuntime().exec(arrayOf("which", "su"))
+            val line = process.inputStream.bufferedReader().readLine()
+            process.destroy()
+            !line.isNullOrBlank() && line.endsWith("su")
+        } catch (_: Exception) {
+            false
         }
     }
 

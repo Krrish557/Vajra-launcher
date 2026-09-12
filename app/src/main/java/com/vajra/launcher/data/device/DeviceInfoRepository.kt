@@ -212,9 +212,9 @@ class DeviceInfoRepository(private val context: Context) {
 
         val tm = context.getSystemService(Context.TELEPHONY_SERVICE) as? TelephonyManager
         val mobileStatus = when {
-            isCellular -> "Active"
+            isCellular -> "Connected"
             tm == null -> "Unavailable"
-            tm.simState == TelephonyManager.SIM_STATE_ABSENT -> "No SIM"
+            tm.simState == TelephonyManager.SIM_STATE_ABSENT -> "Not detected"
             tm.simState == TelephonyManager.SIM_STATE_READY -> "Disconnected"
             else -> "Not detected"
         }
@@ -224,8 +224,17 @@ class DeviceInfoRepository(private val context: Context) {
         val bluetoothStatus = try {
             val bt = BluetoothAdapter.getDefaultAdapter()
             if (bt == null) "Unavailable"
-            else if (bt.isEnabled) "On"
-            else "Off"
+            else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                if (context.checkSelfPermission(android.Manifest.permission.BLUETOOTH_CONNECT) == PackageManager.PERMISSION_GRANTED) {
+                    if (bt.isEnabled) "On" else "Off"
+                } else {
+                    "Unavailable"
+                }
+            } else {
+                if (bt.isEnabled) "On" else "Off"
+            }
+        } catch (_: SecurityException) {
+            "Unavailable"
         } catch (_: Exception) {
             "Unavailable"
         }
@@ -246,9 +255,16 @@ class DeviceInfoRepository(private val context: Context) {
         } catch (_: Exception) {
             false
         }
+        val usbManager = context.getSystemService(Context.USB_SERVICE) as? android.hardware.usb.UsbManager
+        val isDeviceConnected = try {
+            usbManager?.deviceList?.isNotEmpty() == true
+        } catch (_: Exception) {
+            false
+        }
         return ConnectivityTelemetry(
             isUsbHostSupported = hasUsbHost,
-            isOtgAvailable = hasUsbHost
+            isOtgAvailable = hasUsbHost,
+            isUsbDeviceConnected = isDeviceConnected
         )
     }
 

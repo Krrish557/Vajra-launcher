@@ -86,4 +86,22 @@ class CapabilityManager(private val context: Context) {
             )
         )
     }
+
+    fun isRootAvailable(): Boolean = RootDetector.isRootAvailable()
+
+    fun isTermuxInstalled(): CapabilityStatus = CapabilityStatus.UNKNOWN
+
+    fun isLinuxAvailable(): CapabilityStatus = CapabilityStatus.UNKNOWN
+
+    fun isUsbSupported(): Boolean = context.packageManager.hasSystemFeature(PackageManager.FEATURE_USB_HOST)
+
+    fun isOtgSupported(): Boolean = context.packageManager.hasSystemFeature(PackageManager.FEATURE_USB_HOST)
+
+    fun isWifiAvailable(): Boolean = context.packageManager.hasSystemFeature(PackageManager.FEATURE_WIFI)
+
+    fun isBluetoothAvailable(): Boolean = context.packageManager.hasSystemFeature(PackageManager.FEATURE_BLUETOOTH)
+
+    fun isVpnAvailable(): Boolean = true
+
+    fun isCellularAvailable(): Boolean = context.packageManager.hasSystemFeature(PackageManager.FEATURE_TELEPHONY)
 }

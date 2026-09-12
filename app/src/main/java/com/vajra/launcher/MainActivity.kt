@@ -88,6 +88,18 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    override fun onStart() {
+        super.onStart()
+        activeHomeController?.start(lifecycleScope)
+        activeSystemController?.start(lifecycleScope)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        activeHomeController?.stop()
+        activeSystemController?.stop()
+    }
+
     private fun setupWindowInsets() {
         androidx.core.view.ViewCompat.setOnApplyWindowInsetsListener(binding.root) { _, insets ->
             val statusBarInsets = insets.getInsets(androidx.core.view.WindowInsetsCompat.Type.statusBars())

@@ -120,8 +120,9 @@ class SystemMonitor(context: Context) {
             SystemSection(
                 title = "Connectivity",
                 metrics = listOf(
-                    SystemMetric("USB Host", if (conn.isUsbHostSupported) "Supported" else "Not supported"),
-                    SystemMetric("OTG", if (conn.isOtgAvailable) "Available" else "Unavailable")
+                    SystemMetric("USB Host", if (conn.isUsbHostSupported) "Supported" else "Unavailable"),
+                    SystemMetric("OTG", if (conn.isOtgAvailable) "Supported" else "Unavailable"),
+                    SystemMetric("USB Device", if (conn.isUsbDeviceConnected) "Connected" else "Disconnected")
                 )
             )
         )
