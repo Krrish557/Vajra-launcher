@@ -4,6 +4,7 @@ enum class CapabilityType(val label: String) {
     ROOT("Root Access"),
     TERMUX("Termux Environment"),
     LINUX("Linux Chroot / Proot"),
+    DEBIAN("Debian Userspace"),
     ADB("ADB Debugging"),
     USB("USB Subsystem"),
     OTG("USB On-The-Go / Host"),

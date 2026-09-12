@@ -64,15 +64,40 @@ class ToolDetailsViewController(
             Toast.makeText(context, "${tool.name} options", Toast.LENGTH_SHORT).show()
         }
 
+        val envManager = com.vajra.launcher.data.environment.EnvironmentManager(context)
+
+        if (tool.id.equals("termux", ignoreCase = true)) {
+            binding.btnQuickScanText.text = "OPEN TERMUX"
+        } else {
+            val firstAction = tool.quickActions.firstOrNull()
+            if (firstAction != null) {
+                binding.btnQuickScanText.text = firstAction.label.uppercase()
+            }
+        }
+
         binding.btnQuickScan.setOnClickListener {
-            val action = tool.quickActions.firstOrNull()
-            val actionName = action?.label ?: "Quick Action"
-            val cmd = action?.commandTemplate ?: "${tool.executable} {target}"
-            Toast.makeText(
-                context,
-                "$actionName: $cmd (Execution engine deferred in v0.1)",
-                Toast.LENGTH_LONG
-            ).show()
+            if (tool.id.equals("termux", ignoreCase = true)) {
+                when (val res = envManager.launchTermux(context)) {
+                    is com.vajra.launcher.models.TermuxLaunchResult.Success -> {
+                        // Launched successfully
+                    }
+                    is com.vajra.launcher.models.TermuxLaunchResult.NotInstalled -> {
+                        Toast.makeText(context, "Termux is not installed on this device.", Toast.LENGTH_SHORT).show()
+                    }
+                    is com.vajra.launcher.models.TermuxLaunchResult.Failed -> {
+                        Toast.makeText(context, res.reason, Toast.LENGTH_LONG).show()
+                    }
+                }
+            } else {
+                val action = tool.quickActions.firstOrNull()
+                val actionName = action?.label ?: "Quick Action"
+                val cmd = action?.commandTemplate ?: "${tool.executable} {target}"
+                Toast.makeText(
+                    context,
+                    "$actionName: $cmd (Execution engine deferred in v0.1)",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
         }
 
         binding.btnAdvConfig.setOnClickListener {

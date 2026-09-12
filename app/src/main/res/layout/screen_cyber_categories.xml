@@ -29,12 +29,54 @@
         android:textColor="@color/vajra_text_secondary"
         android:textSize="11sp" />
 
+    <!-- Environment Status Banner -->
+    <LinearLayout
+        android:id="@+id/cyberEnvironmentBanner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/bg_card_cyber"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingHorizontal="14dp"
+        android:paddingVertical="9dp">
+
+        <TextView
+            android:id="@+id/cyberEnvironmentDot"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="●"
+            android:textColor="@color/vajra_accent_cyan"
+            android:textSize="10sp" />
+
+        <TextView
+            android:id="@+id/cyberEnvironmentText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_weight="1"
+            android:letterSpacing="0.08"
+            android:text="TERMUX READY"
+            android:textColor="@color/vajra_text_primary"
+            android:textSize="11sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/cyberEnvironmentAction"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:letterSpacing="0.05"
+            android:text="OPEN TERMUX ›"
+            android:textColor="@color/vajra_accent_cyan"
+            android:textSize="10sp" />
+    </LinearLayout>
+
     <!-- RecyclerView of Categories -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/categoriesRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="12dp"
         android:layout_weight="1"
         android:clipToPadding="false"
         android:paddingBottom="16dp"

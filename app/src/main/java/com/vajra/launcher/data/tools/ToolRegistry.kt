@@ -511,6 +511,26 @@ object ToolRegistry {
             examples = listOf(
                 "binwalk -e firmware.bin"
             )
+        ),
+        ToolDefinition(
+            id = "termux",
+            name = "Termux",
+            categoryId = "terminal",
+            description = "Terminal emulator & Linux environment",
+            fullDescription = "Termux combines powerful terminal emulation with an extensive Linux package collection. It provides the core shell and execution subsystem for Vajra.",
+            environment = ToolEnvironment.TERMUX,
+            executable = "termux",
+            state = InstallationState.AVAILABLE,
+            iconRes = R.drawable.ic_cat_terminal,
+            version = "0.118+",
+            quickActions = listOf(
+                ToolAction("open_termux", "Open Termux", "launch_app", "Launch external Termux terminal emulator")
+            ),
+            examples = listOf(
+                "pkg update && pkg upgrade",
+                "pkg install proot-distro",
+                "proot-distro login debian"
+            )
         )
     )
 

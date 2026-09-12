@@ -10,9 +10,12 @@ import com.vajra.launcher.models.RootStatus
 
 class CapabilityManager(private val context: Context) {
 
+    private val envManager = com.vajra.launcher.data.environment.EnvironmentManager(context)
+
     fun getDeviceCapabilities(): List<DeviceCapability> {
         val pm = context.packageManager
         val rootStatus = RootDetector.detectRootStatus()
+        val termuxInfo = envManager.getTermuxInfo()
 
         val hasWifi = pm.hasSystemFeature(PackageManager.FEATURE_WIFI)
         val hasBt = pm.hasSystemFeature(PackageManager.FEATURE_BLUETOOTH)
@@ -25,6 +28,12 @@ class CapabilityManager(private val context: Context) {
             RootStatus.UNKNOWN -> CapabilityStatus.UNKNOWN
         }
 
+        val termuxCapabilityStatus = if (termuxInfo.isAvailable) {
+            CapabilityStatus.AVAILABLE
+        } else {
+            CapabilityStatus.UNAVAILABLE
+        }
+
         return listOf(
             DeviceCapability(
                 type = CapabilityType.ROOT,
@@ -35,6 +44,28 @@ class CapabilityManager(private val context: Context) {
                     RootStatus.NOT_AVAILABLE -> "No superuser binary detected."
                     RootStatus.UNKNOWN -> "Root status could not be verified."
                 }
+            ),
+            DeviceCapability(
+                type = CapabilityType.TERMUX,
+                name = "Termux Bridge",
+                status = termuxCapabilityStatus,
+                description = if (termuxInfo.isAvailable) {
+                    "Termux installed (${termuxInfo.version ?: "Available"})."
+                } else {
+                    "Termux is not installed."
+                }
+            ),
+            DeviceCapability(
+                type = CapabilityType.LINUX,
+                name = "Linux Userspace",
+                status = CapabilityStatus.UNKNOWN,
+                description = "Linux runtime environment (PRoot) not configured."
+            ),
+            DeviceCapability(
+                type = CapabilityType.DEBIAN,
+                name = "Debian Userspace",
+                status = CapabilityStatus.UNKNOWN,
+                description = "Debian distribution rootfs not configured."
             ),
             DeviceCapability(
                 type = CapabilityType.WIFI,
@@ -61,18 +92,6 @@ class CapabilityManager(private val context: Context) {
                 description = if (hasUsbHost) "USB Host (OTG) peripheral support detected." else "USB Host not reported by platform."
             ),
             DeviceCapability(
-                type = CapabilityType.TERMUX,
-                name = "Termux Bridge",
-                status = CapabilityStatus.UNKNOWN,
-                description = "Environment integration deferred to next development block."
-            ),
-            DeviceCapability(
-                type = CapabilityType.LINUX,
-                name = "Linux Runtime (Debian / Proot)",
-                status = CapabilityStatus.UNKNOWN,
-                description = "Linux runtime resolution deferred to next development block."
-            ),
-            DeviceCapability(
                 type = CapabilityType.PACKET_CAPTURE,
                 name = "Raw Packet Capture",
                 status = if (rootStatus == RootStatus.AVAILABLE) CapabilityStatus.AVAILABLE else CapabilityStatus.REQUIRES_ROOT,
@@ -89,9 +108,12 @@ class CapabilityManager(private val context: Context) {
 
     fun isRootAvailable(): Boolean = RootDetector.isRootAvailable()
 
-    fun isTermuxInstalled(): CapabilityStatus = CapabilityStatus.UNKNOWN
+    fun isTermuxInstalled(): CapabilityStatus =
+        if (envManager.isTermuxInstalled()) CapabilityStatus.AVAILABLE else CapabilityStatus.UNAVAILABLE
 
     fun isLinuxAvailable(): CapabilityStatus = CapabilityStatus.UNKNOWN
+
+    fun isDebianAvailable(): CapabilityStatus = CapabilityStatus.UNKNOWN
 
     fun isUsbSupported(): Boolean = context.packageManager.hasSystemFeature(PackageManager.FEATURE_USB_HOST)
 

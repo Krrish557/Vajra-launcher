@@ -8,6 +8,7 @@ import com.vajra.launcher.models.SystemSection
 class SystemMonitor(context: Context) {
 
     val repository = DeviceInfoRepository(context)
+    val envManager = com.vajra.launcher.data.environment.EnvironmentManager(context)
 
     fun getCpuUsagePercent(): Int {
         val cpu = repository.getCpuTelemetry()
@@ -87,6 +88,22 @@ class SystemMonitor(context: Context) {
                 metrics = listOf(
                     SystemMetric("Repository", vajra.repository),
                     SystemMetric("Summary", vajra.summary)
+                )
+            ),
+            SystemSection(
+                title = "Environment",
+                metrics = listOf(
+                    SystemMetric(
+                        "Termux",
+                        if (envManager.isTermuxInstalled()) {
+                            val v = envManager.getTermuxInfo().version
+                            if (v != null) "Available (v$v)" else "Available"
+                        } else {
+                            "Not installed"
+                        }
+                    ),
+                    SystemMetric("Linux", envManager.linuxProvider.getInfo().status.label),
+                    SystemMetric("Debian", envManager.debianProvider.getInfo().status.label)
                 )
             ),
             SystemSection(

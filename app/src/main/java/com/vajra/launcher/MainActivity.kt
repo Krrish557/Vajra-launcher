@@ -37,6 +37,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var systemMonitor: SystemMonitor
     private lateinit var appRepository: AppRepository
     private lateinit var searchProvider: SearchProvider
+    private lateinit var environmentManager: com.vajra.launcher.data.environment.EnvironmentManager
 
     private val backStack = ArrayDeque<Screen>()
     private var currentScreen: Screen? = null
@@ -58,6 +59,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        environmentManager = com.vajra.launcher.data.environment.EnvironmentManager(this)
         systemMonitor = SystemMonitor(this)
         appRepository = AppRepository(this)
         searchProvider = SearchProvider(appRepository)
@@ -192,7 +194,10 @@ class MainActivity : AppCompatActivity() {
             }
             is Screen.CyberCategories -> {
                 updateNavSelection(1)
-                val controller = CyberCategoriesViewController(binding.screenContainer) { catId ->
+                val controller = CyberCategoriesViewController(
+                    container = binding.screenContainer,
+                    environmentManager = environmentManager
+                ) { catId ->
                     navigateTo(Screen.ToolList(catId))
                 }
                 binding.screenContainer.addView(controller.binding.root)

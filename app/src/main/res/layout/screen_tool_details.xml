@@ -139,6 +139,7 @@
                 app:tint="@color/color_primary_btn_text" />
 
             <TextView
+                android:id="@+id/btnQuickScanText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
