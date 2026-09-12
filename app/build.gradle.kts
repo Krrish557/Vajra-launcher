@@ -3,6 +3,36 @@ plugins {
     id("org.jetbrains.kotlin.android")
 }
 
+val appVersionCode = 14
+val appVersionBase = "1.4"
+
+fun getGitCommitSummary(): String {
+    return try {
+        val process = ProcessBuilder("git", "log", "-1", "--pretty=%s").start()
+        process.inputStream.bufferedReader().readText().trim()
+    } catch (_: Exception) {
+        "Lucario"
+    }
+}
+
+fun getGitCommitHash(): String {
+    return try {
+        val process = ProcessBuilder("git", "rev-parse", "--short", "HEAD").start()
+        process.inputStream.bufferedReader().readText().trim()
+    } catch (_: Exception) {
+        "unknown"
+    }
+}
+
+val gitCommit = getGitCommitSummary().ifEmpty { "Lucario: Release" }
+val gitHash = getGitCommitHash().ifEmpty { "HEAD" }
+val pokemonName = if (gitCommit.contains(":")) {
+    gitCommit.substringBefore(":").trim()
+} else {
+    "Lucario"
+}
+val computedVersionName = "$appVersionBase - $pokemonName"
+
 android {
     namespace = "com.vajra.launcher"
     compileSdk = 35
@@ -12,8 +42,11 @@ android {
         minSdk = 29
         targetSdk = 35
 
-        versionCode = 13
-        versionName = "1.3 - Gengar"
+        versionCode = appVersionCode
+        versionName = computedVersionName
+
+        buildConfigField("String", "POKEMON_CODENAME", "\"$pokemonName\"")
+        buildConfigField("String", "GIT_HASH", "\"$gitHash\"")
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -38,6 +71,7 @@ android {
 
     buildFeatures {
         viewBinding = true
+        buildConfig = true
     }
 
     kotlin {

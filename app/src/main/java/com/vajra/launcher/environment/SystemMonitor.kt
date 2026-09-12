@@ -78,6 +78,7 @@ class SystemMonitor(context: Context) {
                 metrics = listOf(
                     SystemMetric("Version", vajra.versionName),
                     SystemMetric("Codename", vajra.codename),
+                    SystemMetric("Git Hash", vajra.gitHash.ifEmpty { "Latest" }),
                     SystemMetric("Package", vajra.packageName),
                     SystemMetric("Build Code", "${vajra.versionCode}")
                 )

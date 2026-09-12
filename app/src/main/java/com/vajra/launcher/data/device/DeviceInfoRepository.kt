@@ -21,6 +21,7 @@ import com.vajra.launcher.models.CpuTelemetry
 import com.vajra.launcher.models.DeviceDetails
 import com.vajra.launcher.models.MemoryTelemetry
 import com.vajra.launcher.models.NetworkTelemetry
+import com.vajra.launcher.BuildConfig
 import com.vajra.launcher.models.StorageTelemetry
 import com.vajra.launcher.models.VajraInfo
 import java.io.File
@@ -283,7 +284,7 @@ class DeviceInfoRepository(private val context: Context) {
     fun getVajraInfo(): VajraInfo {
         return try {
             val pInfo = context.packageManager.getPackageInfo(context.packageName, 0)
-            val vName = pInfo.versionName ?: "1.3 - Gengar"
+            val vName = pInfo.versionName ?: BuildConfig.VERSION_NAME
             val vCode = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
                 pInfo.longVersionCode
             } else {
@@ -293,16 +294,23 @@ class DeviceInfoRepository(private val context: Context) {
             val codename = if (vName.contains("-")) {
                 vName.substringAfter("-").trim()
             } else {
-                "Gengar"
+                BuildConfig.POKEMON_CODENAME
             }
             VajraInfo(
                 versionName = vName,
                 versionCode = vCode,
                 packageName = context.packageName,
-                codename = codename
+                codename = codename,
+                gitHash = BuildConfig.GIT_HASH
             )
         } catch (_: Exception) {
-            VajraInfo("1.3 - Gengar", 13L, context.packageName, "Gengar")
+            VajraInfo(
+                versionName = BuildConfig.VERSION_NAME,
+                versionCode = BuildConfig.VERSION_CODE.toLong(),
+                packageName = context.packageName,
+                codename = BuildConfig.POKEMON_CODENAME,
+                gitHash = BuildConfig.GIT_HASH
+            )
         }
     }
 }

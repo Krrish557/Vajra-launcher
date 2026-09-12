@@ -10,7 +10,8 @@ data class VajraInfo(
     val versionName: String,
     val versionCode: Long,
     val packageName: String,
-    val codename: String
+    val codename: String,
+    val gitHash: String = ""
 )
 
 data class DeviceDetails(
