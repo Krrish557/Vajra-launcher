@@ -125,8 +125,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private var lastBackPressTime = 0L
-
     private fun setupBackNavigation() {
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
@@ -137,22 +135,8 @@ class MainActivity : AppCompatActivity() {
                     navigateTo(Screen.Home, addToBackStack = false)
                 } else {
                     // Already at Home screen root of the launcher.
-                    // Never call moveTaskToBack(true) because minimizing a launcher leaves
-                    // the device showing only the wallpaper with no UI or apps!
-                    val currentTime = System.currentTimeMillis()
-                    if (currentTime - lastBackPressTime < 2000) {
-                        // Double-tap back on Home: safely hand off to alternate launcher
-                        appRepository.openDefaultLauncher()
-                    } else {
-                        lastBackPressTime = currentTime
-                        if (!appRepository.isVajraDefaultLauncher()) {
-                            android.widget.Toast.makeText(
-                                this@MainActivity,
-                                "Press BACK again to return to default launcher",
-                                android.widget.Toast.LENGTH_SHORT
-                            ).show()
-                        }
-                    }
+                    // Strictly consume back press and stay on Home.
+                    // The only way to open the default/alternate launcher is via the Apps screen card.
                 }
             }
         })
