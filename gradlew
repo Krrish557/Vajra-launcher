@@ -82,7 +82,7 @@ do
     esac
 done
 
-# This is normally unused
+#  This is normally unused
 # shellcheck disable=SC2034
 APP_BASE_NAME=${0##*/}
 # Discard cd standard output in case $CDPATH is set (https://github.com/gradle/gradle/issues/25036)
