@@ -317,7 +317,8 @@ class DeviceInfoRepository(private val context: Context) {
                 versionCode = vCode,
                 packageName = context.packageName,
                 codename = codename,
-                gitHash = BuildConfig.GIT_HASH
+                repository = "Krrish557/Vajra-launcher",
+                summary = "Tactical cyber deck launcher engineered for real-time telemetry and modular tool orchestration."
             )
         } catch (_: Exception) {
             VajraInfo(
@@ -325,7 +326,8 @@ class DeviceInfoRepository(private val context: Context) {
                 versionCode = BuildConfig.VERSION_CODE.toLong(),
                 packageName = context.packageName,
                 codename = BuildConfig.POKEMON_CODENAME,
-                gitHash = BuildConfig.GIT_HASH
+                repository = "Krrish557/Vajra-launcher",
+                summary = "Tactical cyber deck launcher engineered for real-time telemetry and modular tool orchestration."
             )
         }
     }

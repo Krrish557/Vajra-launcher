@@ -15,17 +15,7 @@ fun getGitCommitSummary(): String {
     }
 }
 
-fun getGitCommitHash(): String {
-    return try {
-        val process = ProcessBuilder("git", "rev-parse", "--short", "HEAD").start()
-        process.inputStream.bufferedReader().readText().trim()
-    } catch (_: Exception) {
-        "unknown"
-    }
-}
-
 val gitCommit = getGitCommitSummary().ifEmpty { "Lucario: Release" }
-val gitHash = getGitCommitHash().ifEmpty { "HEAD" }
 val pokemonName = if (gitCommit.contains(":")) {
     gitCommit.substringBefore(":").trim()
 } else {
@@ -46,7 +36,6 @@ android {
         versionName = computedVersionName
 
         buildConfigField("String", "POKEMON_CODENAME", "\"$pokemonName\"")
-        buildConfigField("String", "GIT_HASH", "\"$gitHash\"")
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }

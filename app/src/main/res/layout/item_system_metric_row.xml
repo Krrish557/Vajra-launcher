@@ -2,23 +2,27 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:gravity="center_vertical"
     android:orientation="horizontal"
     android:paddingVertical="7dp">
 
     <TextView
         android:id="@+id/metricLabel"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
+        android:layout_gravity="top"
+        android:layout_marginEnd="12dp"
+        android:minWidth="90dp"
         android:text="Model"
         android:textColor="@color/vajra_text_secondary"
         android:textSize="12sp" />
 
     <TextView
         android:id="@+id/metricValue"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_gravity="top"
+        android:layout_weight="1"
+        android:gravity="end"
         android:text="Samsung SM-J610F"
         android:textColor="@color/vajra_text_primary"
         android:textSize="12sp"

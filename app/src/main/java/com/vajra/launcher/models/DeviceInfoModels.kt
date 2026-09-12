@@ -11,7 +11,8 @@ data class VajraInfo(
     val versionCode: Long,
     val packageName: String,
     val codename: String,
-    val gitHash: String = ""
+    val repository: String = "Krrish557/Vajra-launcher",
+    val summary: String = "Tactical cyber deck launcher engineered for real-time telemetry and modular tool orchestration."
 )
 
 data class DeviceDetails(
