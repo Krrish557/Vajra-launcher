@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/vajra_bg_dark"
+    android:orientation="vertical"
+    android:paddingHorizontal="16dp"
+    android:paddingTop="16dp">
+
+    <!-- Header -->
+    <TextView
+        android:id="@+id/appsTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:letterSpacing="0.15"
+        android:text="@string/apps_title"
+        android:textColor="@color/vajra_text_primary"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/appsSubtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:letterSpacing="0.06"
+        android:text="@string/apps_subtitle"
+        android:textColor="@color/vajra_text_secondary"
+        android:textSize="11sp" />
+
+    <!-- Search Input -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="14dp"
+        android:background="@drawable/bg_input_field"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingHorizontal="10dp">
+
+        <ImageView
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:contentDescription="@null"
+            android:src="@drawable/ic_search" />
+
+        <EditText
+            android:id="@+id/appsSearchInput"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:hint="@string/search_apps_hint"
+            android:imeOptions="actionSearch"
+            android:inputType="text"
+            android:textColor="@color/vajra_text_primary"
+            android:textColorHint="@color/vajra_text_tertiary"
+            android:textSize="12sp" />
+
+        <ImageView
+            android:id="@+id/appsSearchClear"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@null"
+            android:padding="2dp"
+            android:src="@drawable/ic_close"
+            android:visibility="gone" />
+    </LinearLayout>
+
+    <!-- Android Launcher Handoff Card -->
+    <LinearLayout
+        android:id="@+id/cardAndroidHandoff"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/bg_card_clickable"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="12dp">
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:contentDescription="@null"
+            android:src="@drawable/ic_android" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_weight="1"
+            android:text="@string/handoff_open_launcher"
+            android:textColor="@color/vajra_text_primary"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:contentDescription="@null"
+            android:src="@drawable/ic_chevron_right" />
+    </LinearLayout>
+
+    <!-- Installed Applications List -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/appsRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="10dp"
+        android:layout_weight="1"
+        android:clipToPadding="false"
+        android:paddingBottom="16dp"
+        android:scrollbars="none" />
+
+</LinearLayout>

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Base Cyber Dark Palette -->
+    <color name="vajra_bg_dark">#0B0D11</color>
+    <color name="vajra_surface_dark">#12151B</color>
+    <color name="vajra_surface_elevated_dark">#181C24</color>
+    <color name="vajra_surface_subtle_dark">#141720</color>
+    <color name="vajra_border_dark">#222734</color>
+    <color name="vajra_border_active_dark">#363F52</color>
+
+    <!-- Base Cyber AMOLED Palette -->
+    <color name="vajra_bg_amoled">#000000</color>
+    <color name="vajra_surface_amoled">#0A0B0E</color>
+    <color name="vajra_surface_elevated_amoled">#121418</color>
+    <color name="vajra_border_amoled">#1C1E24</color>
+
+    <!-- Base Cyber Light Palette -->
+    <color name="vajra_bg_light">#F4F6F8</color>
+    <color name="vajra_surface_light">#FFFFFF</color>
+    <color name="vajra_surface_elevated_light">#EAEEF2</color>
+    <color name="vajra_border_light">#D0D7DE</color>
+    <color name="vajra_text_primary_light">#1F2328</color>
+    <color name="vajra_text_secondary_light">#656D76</color>
+    <color name="vajra_text_tertiary_light">#8C959F</color>
+
+    <!-- Text Colors (Dark/AMOLED default) -->
+    <color name="vajra_text_primary">#F0F3F6</color>
+    <color name="vajra_text_secondary">#8B949E</color>
+    <color name="vajra_text_tertiary">#4F5765</color>
+    <color name="vajra_text_code">#79C0FF</color>
+
+    <!-- Primary Brand & UI Accents -->
+    <color name="vajra_accent_blue">#4C9AFF</color>
+    <color name="vajra_accent_cyan">#38D39F</color>
+    <color name="vajra_accent_glow">#254C9AFF</color>
+    <color name="vajra_nav_active">#58A6FF</color>
+    <color name="vajra_nav_inactive">#6E7681</color>
+    <color name="vajra_nav_indicator">#58A6FF</color>
+
+    <!-- Status Badges & Alerts -->
+    <color name="vajra_badge_installed_bg">#183424</color>
+    <color name="vajra_badge_installed_text">#3FB950</color>
+    <color name="vajra_badge_uninstalled_bg">#1E222A</color>
+    <color name="vajra_badge_uninstalled_text">#768390</color>
+    <color name="vajra_badge_warning_bg">#342B18</color>
+    <color name="vajra_badge_warning_text">#D29922</color>
+    <color name="vajra_badge_error_bg">#3D1E1E</color>
+    <color name="vajra_badge_error_text">#F85149</color>
+
+    <!-- Category Accents -->
+    <color name="vajra_cat_recon">#38D39F</color>
+    <color name="vajra_cat_network">#58A6FF</color>
+    <color name="vajra_cat_web">#BC8CFF</color>
+    <color name="vajra_cat_android">#56D364</color>
+    <color name="vajra_cat_windows">#79C0FF</color>
+    <color name="vajra_cat_reverse">#F0883E</color>
+    <color name="vajra_cat_password">#FF7B72</color>
+    <color name="vajra_cat_wireless">#38D39F</color>
+    <color name="vajra_cat_osint">#7EE787</color>
+    <color name="vajra_cat_forensics">#A5D6FF</color>
+    <color name="vajra_cat_exploitation">#FFA657</color>
+    <color name="vajra_cat_scripts">#D2A8FF</color>
+    <color name="vajra_cat_terminal">#58A6FF</color>
+    <color name="vajra_cat_tools">#79C0FF</color>
+    <color name="vajra_cat_reporting">#56D364</color>
+
+    <!-- Semantic aliases -->
+    <color name="color_primary_btn">#233854</color>
+    <color name="color_primary_btn_stroke">#3875C4</color>
+    <color name="color_primary_btn_text">#E6F1FF</color>
+</resources>

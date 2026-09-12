@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="120dp"
+    android:height="120dp"
+    android:viewportWidth="100"
+    android:viewportHeight="100">
+    <!-- Stylized geometric Vajra Diamond Mark -->
+    <path
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="2.5"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"
+        android:pathData="M50,8 L88,78 L68,78 L50,42 L32,78 L12,78 Z" />
+    <path
+        android:strokeColor="#58A6FF"
+        android:strokeWidth="2.5"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"
+        android:pathData="M50,26 L62,50 L38,50 Z" />
+    <path
+        android:strokeColor="#38D39F"
+        android:strokeWidth="2"
+        android:strokeLineCap="round"
+        android:pathData="M50,88 L50,94" />
+</vector>

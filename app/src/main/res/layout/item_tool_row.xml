@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/toolRowContainer"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="8dp"
+    android:background="@drawable/bg_card_clickable"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:padding="12dp">
+
+    <!-- Tool Icon Frame -->
+    <ImageView
+        android:id="@+id/toolIcon"
+        android:layout_width="22dp"
+        android:layout_height="22dp"
+        android:contentDescription="@null"
+        android:src="@drawable/ic_cat_recon"
+        app:tint="@color/vajra_accent_cyan" />
+
+    <!-- Name and Description -->
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="14dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/toolName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nmap"
+            android:textColor="@color/vajra_text_primary"
+            android:textSize="13sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/toolDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:text="Network scanner"
+            android:textColor="@color/vajra_text_secondary"
+            android:textSize="11sp" />
+    </LinearLayout>
+
+    <!-- Status Badge (Installed / Not installed) -->
+    <TextView
+        android:id="@+id/toolStatusBadge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/bg_badge_installed"
+        android:letterSpacing="0.04"
+        android:text="Installed"
+        android:textColor="@color/vajra_badge_installed_text"
+        android:textSize="10sp"
+        android:textStyle="bold" />
+
+    <!-- Chevron -->
+    <ImageView
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:contentDescription="@null"
+        android:src="@drawable/ic_chevron_right" />
+
+</LinearLayout>

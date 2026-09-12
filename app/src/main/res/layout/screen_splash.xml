@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/vajra_bg_dark"
+    android:padding="28dp">
+
+    <!-- Top Spacer -->
+    <Space
+        android:id="@+id/topSpacer"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/splashLogo"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_weight="1.2" />
+
+    <!-- Centered Vajra Mark -->
+    <ImageView
+        android:id="@+id/splashLogo"
+        android:layout_width="96dp"
+        android:layout_height="96dp"
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/ic_vajra_mark"
+        app:layout_constraintBottom_toTopOf="@id/splashTitle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/topSpacer" />
+
+    <!-- VAJRA Wordmark -->
+    <TextView
+        android:id="@+id/splashTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:letterSpacing="0.25"
+        android:text="V A J R A"
+        android:textColor="@color/vajra_text_primary"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@id/splashTagline"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/splashLogo" />
+
+    <!-- Tagline: SMALL DEVICES / BIGGER POSSIBILITIES -->
+    <TextView
+        android:id="@+id/splashTagline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:letterSpacing="0.12"
+        android:lineSpacingExtra="3dp"
+        android:text="@string/tagline_small_devices"
+        android:textColor="@color/vajra_text_secondary"
+        android:textSize="10sp"
+        app:layout_constraintBottom_toTopOf="@id/splashProgressBar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/splashTitle" />
+
+    <!-- Subtle Horizontal Progress Bar -->
+    <ProgressBar
+        android:id="@+id/splashProgressBar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginTop="40dp"
+        android:indeterminate="false"
+        android:max="100"
+        android:progress="65"
+        android:progressDrawable="@drawable/progress_cyber_horizontal"
+        app:layout_constraintBottom_toTopOf="@id/statusListContainer"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/splashTagline" />
+
+    <!-- Status Checklist -->
+    <LinearLayout
+        android:id="@+id/statusListContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginTop="28dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@id/bottomSpacer"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/splashProgressBar">
+
+        <!-- Item 1 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:letterSpacing="0.04"
+                android:text="@string/splash_init_interface"
+                android:textColor="@color/vajra_text_secondary"
+                android:textSize="11sp" />
+
+            <TextView
+                android:id="@+id/statusItem1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/status_ok"
+                android:textColor="@color/vajra_badge_installed_text"
+                android:textSize="11sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <!-- Item 2 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:letterSpacing="0.04"
+                android:text="@string/splash_load_modules"
+                android:textColor="@color/vajra_text_secondary"
+                android:textSize="11sp" />
+
+            <TextView
+                android:id="@+id/statusItem2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/status_ok"
+                android:textColor="@color/vajra_badge_installed_text"
+                android:textSize="11sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <!-- Item 3 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:letterSpacing="0.04"
+                android:text="@string/splash_check_env"
+                android:textColor="@color/vajra_text_secondary"
+                android:textSize="11sp" />
+
+            <TextView
+                android:id="@+id/statusItem3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/status_ok"
+                android:textColor="@color/vajra_badge_installed_text"
+                android:textSize="11sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <!-- Item 4 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:letterSpacing="0.04"
+                android:text="@string/splash_prep_workspace"
+                android:textColor="@color/vajra_text_secondary"
+                android:textSize="11sp" />
+
+            <TextView
+                android:id="@+id/statusItem4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/status_ok"
+                android:textColor="@color/vajra_badge_installed_text"
+                android:textSize="11sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- Bottom Spacer -->
+    <Space
+        android:id="@+id/bottomSpacer"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/splashFooter"
+        app:layout_constraintTop_toBottomOf="@id/statusListContainer"
+        app:layout_constraintVertical_weight="1" />
+
+    <!-- Bottom Footer Tagline -->
+    <TextView
+        android:id="@+id/splashFooter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:letterSpacing="0.1"
+        android:text="@string/tagline_open_world"
+        android:textColor="@color/vajra_text_tertiary"
+        android:textSize="10sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rootContainer"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/vajra_bg_dark">
+
+    <!-- Primary Screen Content Container -->
+    <FrameLayout
+        android:id="@+id/screenContainer"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/bottomNavContainer"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- Persistent Bottom Navigation Bar matching reference design -->
+    <LinearLayout
+        android:id="@+id/bottomNavContainer"
+        android:layout_width="0dp"
+        android:layout_height="62dp"
+        android:background="#0C0F14"
+        android:baselineAligned="false"
+        android:elevation="8dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <!-- Nav Item: HOME -->
+        <LinearLayout
+            android:id="@+id/navHome"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="?attr/selectableItemBackground"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/navHomeIcon"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:contentDescription="@string/nav_home"
+                android:src="@drawable/ic_nav_home"
+                app:tint="@color/vajra_nav_active" />
+
+            <TextView
+                android:id="@+id/navHomeLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="@string/nav_home"
+                android:textColor="@color/vajra_nav_active"
+                android:textSize="10sp"
+                android:textStyle="bold" />
+
+            <View
+                android:id="@+id/navHomeIndicator"
+                android:layout_width="20dp"
+                android:layout_height="2.5dp"
+                android:layout_marginTop="3dp"
+                android:background="@drawable/bg_nav_active_indicator"
+                android:visibility="visible" />
+        </LinearLayout>
+
+        <!-- Nav Item: CYBER -->
+        <LinearLayout
+            android:id="@+id/navCyber"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="?attr/selectableItemBackground"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/navCyberIcon"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:contentDescription="@string/nav_cyber"
+                android:src="@drawable/ic_nav_cyber"
+                app:tint="@color/vajra_nav_inactive" />
+
+            <TextView
+                android:id="@+id/navCyberLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="@string/nav_cyber"
+                android:textColor="@color/vajra_nav_inactive"
+                android:textSize="10sp" />
+
+            <View
+                android:id="@+id/navCyberIndicator"
+                android:layout_width="20dp"
+                android:layout_height="2.5dp"
+                android:layout_marginTop="3dp"
+                android:background="@drawable/bg_nav_active_indicator"
+                android:visibility="invisible" />
+        </LinearLayout>
+
+        <!-- Nav Item: APPS -->
+        <LinearLayout
+            android:id="@+id/navApps"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="?attr/selectableItemBackground"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/navAppsIcon"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:contentDescription="@string/nav_apps"
+                android:src="@drawable/ic_nav_apps"
+                app:tint="@color/vajra_nav_inactive" />
+
+            <TextView
+                android:id="@+id/navAppsLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="@string/nav_apps"
+                android:textColor="@color/vajra_nav_inactive"
+                android:textSize="10sp" />
+
+            <View
+                android:id="@+id/navAppsIndicator"
+                android:layout_width="20dp"
+                android:layout_height="2.5dp"
+                android:layout_marginTop="3dp"
+                android:background="@drawable/bg_nav_active_indicator"
+                android:visibility="invisible" />
+        </LinearLayout>
+
+        <!-- Nav Item: SYSTEM -->
+        <LinearLayout
+            android:id="@+id/navSystem"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="?attr/selectableItemBackground"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/navSystemIcon"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:contentDescription="@string/nav_system"
+                android:src="@drawable/ic_nav_system"
+                app:tint="@color/vajra_nav_inactive" />
+
+            <TextView
+                android:id="@+id/navSystemLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="@string/nav_system"
+                android:textColor="@color/vajra_nav_inactive"
+                android:textSize="10sp" />
+
+            <View
+                android:id="@+id/navSystemIndicator"
+                android:layout_width="20dp"
+                android:layout_height="2.5dp"
+                android:layout_marginTop="3dp"
+                android:background="@drawable/bg_nav_active_indicator"
+                android:visibility="invisible" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!-- Top-level Splash Overlay Container (shown on cold boot) -->
+    <FrameLayout
+        android:id="@+id/splashContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/vajra_bg_dark"
+        android:elevation="20dp"
+        android:visibility="visible" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/vajra_bg_dark"
+    android:orientation="vertical"
+    android:paddingHorizontal="16dp"
+    android:paddingTop="12dp">
+
+    <!-- Search Header with Back Button, Input & Clear -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/searchBackBtn"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@null"
+            android:padding="6dp"
+            android:src="@drawable/ic_arrow_back" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="8dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_input_field"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingHorizontal="10dp">
+
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:contentDescription="@null"
+                android:src="@drawable/ic_search" />
+
+            <EditText
+                android:id="@+id/globalSearchInput"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:hint="@string/search_global_hint"
+                android:imeOptions="actionSearch"
+                android:inputType="text"
+                android:textColor="@color/vajra_text_primary"
+                android:textColorHint="@color/vajra_text_tertiary"
+                android:textSize="13sp" />
+
+            <ImageView
+                android:id="@+id/globalSearchClear"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@null"
+                android:padding="2dp"
+                android:src="@drawable/ic_close"
+                android:visibility="gone" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- Filter Chips Row: [All] [Tools] [Apps] [Commands] [Docs] -->
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/chipAll"
+                android:layout_width="wrap_content"
+                android:layout_height="32dp"
+                android:background="@drawable/bg_badge_installed"
+                android:gravity="center"
+                android:paddingHorizontal="14dp"
+                android:text="All"
+                android:textColor="@color/vajra_text_primary"
+                android:textSize="11sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/chipTools"
+                android:layout_width="wrap_content"
+                android:layout_height="32dp"
+                android:layout_marginStart="8dp"
+                android:background="@drawable/bg_badge_uninstalled"
+                android:gravity="center"
+                android:paddingHorizontal="14dp"
+                android:text="Tools"
+                android:textColor="@color/vajra_text_secondary"
+                android:textSize="11sp" />
+
+            <TextView
+                android:id="@+id/chipApps"
+                android:layout_width="wrap_content"
+                android:layout_height="32dp"
+                android:layout_marginStart="8dp"
+                android:background="@drawable/bg_badge_uninstalled"
+                android:gravity="center"
+                android:paddingHorizontal="14dp"
+                android:text="Apps"
+                android:textColor="@color/vajra_text_secondary"
+                android:textSize="11sp" />
+
+            <TextView
+                android:id="@+id/chipCommands"
+                android:layout_width="wrap_content"
+                android:layout_height="32dp"
+                android:layout_marginStart="8dp"
+                android:background="@drawable/bg_badge_uninstalled"
+                android:gravity="center"
+                android:paddingHorizontal="14dp"
+                android:text="Commands"
+                android:textColor="@color/vajra_text_secondary"
+                android:textSize="11sp" />
+
+            <TextView
+                android:id="@+id/chipDocs"
+                android:layout_width="wrap_content"
+                android:layout_height="32dp"
+                android:layout_marginStart="8dp"
+                android:background="@drawable/bg_badge_uninstalled"
+                android:gravity="center"
+                android:paddingHorizontal="14dp"
+                android:text="Docs"
+                android:textColor="@color/vajra_text_secondary"
+                android:textSize="11sp" />
+        </LinearLayout>
+    </HorizontalScrollView>
+
+    <!-- Search Results RecyclerView -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/searchResultsRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="14dp"
+        android:layout_weight="1"
+        android:clipToPadding="false"
+        android:paddingBottom="16dp"
+        android:scrollbars="none" />
+
+</LinearLayout>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Screen paddings & margins -->
+    <dimen name="vajra_padding_screen">16dp</dimen>
+    <dimen name="vajra_padding_card">12dp</dimen>
+    <dimen name="vajra_padding_small">8dp</dimen>
+    <dimen name="vajra_padding_tiny">4dp</dimen>
+
+    <!-- Corner radiuses -->
+    <dimen name="vajra_radius_card">10dp</dimen>
+    <dimen name="vajra_radius_pill">16dp</dimen>
+    <dimen name="vajra_radius_small">6dp</dimen>
+    <dimen name="vajra_radius_input">8dp</dimen>
+
+    <!-- Border strokes -->
+    <dimen name="vajra_border_width">1dp</dimen>
+    <dimen name="vajra_border_active_width">1.5dp</dimen>
+
+    <!-- Typography sizes -->
+    <dimen name="vajra_text_clock">44sp</dimen>
+    <dimen name="vajra_text_title">20sp</dimen>
+    <dimen name="vajra_text_subtitle">11sp</dimen>
+    <dimen name="vajra_text_card_label">10sp</dimen>
+    <dimen name="vajra_text_card_value">18sp</dimen>
+    <dimen name="vajra_text_body">13sp</dimen>
+    <dimen name="vajra_text_caption">11sp</dimen>
+    <dimen name="vajra_text_code">12sp</dimen>
+
+    <!-- Nav Bar -->
+    <dimen name="vajra_bottom_nav_height">60dp</dimen>
+</resources>

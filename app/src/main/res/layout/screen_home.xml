@@ -1,0 +1,466 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/vajra_bg_dark"
+    android:fillViewport="true"
+    android:scrollbars="none">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Header: VAJRA Title and Live Date -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/homeAppTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:letterSpacing="0.2"
+                android:text="V A J R A"
+                android:textColor="@color/vajra_text_primary"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/homeDateText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:letterSpacing="0.05"
+                android:text="Tue, 10 Dec"
+                android:textColor="@color/vajra_text_secondary"
+                android:textSize="12sp" />
+
+            <ImageView
+                android:id="@+id/homeSearchBtn"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginStart="10dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/search_global_hint"
+                android:padding="6dp"
+                android:src="@drawable/ic_search" />
+        </LinearLayout>
+
+        <!-- Hero Section: Clock, Ready Status & Mountain Wireframe Graphic -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp">
+
+            <!-- Background Landscape Vector Graphic -->
+            <ImageView
+                android:layout_width="150dp"
+                android:layout_height="80dp"
+                android:contentDescription="@null"
+                android:scaleType="fitEnd"
+                android:src="@drawable/ic_vajra_landscape"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <!-- Large Digital Clock -->
+            <TextView
+                android:id="@+id/homeClockText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:letterSpacing="0.04"
+                android:text="14:37"
+                android:textColor="@color/vajra_text_primary"
+                android:textSize="44sp"
+                android:textStyle="normal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <!-- Subtitle below Clock -->
+            <TextView
+                android:id="@+id/homeStatusTag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:letterSpacing="0.1"
+                android:text="@string/dashboard_ready"
+                android:textColor="@color/vajra_text_secondary"
+                android:textSize="11sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/homeClockText" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- 2x2 Primary Metrics Cards Grid -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:orientation="vertical">
+
+            <!-- Row 1: CPU and RAM -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <!-- CPU Card -->
+                <LinearLayout
+                    android:id="@+id/cardCpu"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="6dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_card_cyber"
+                    android:orientation="vertical"
+                    android:padding="12dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:contentDescription="@string/metric_cpu"
+                            android:src="@drawable/ic_cpu" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:letterSpacing="0.08"
+                            android:text="@string/metric_cpu"
+                            android:textColor="@color/vajra_text_secondary"
+                            android:textSize="11sp" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/cpuValueText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="42%"
+                        android:textColor="@color/vajra_text_primary"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <ProgressBar
+                        android:id="@+id/cpuProgressBar"
+                        style="?android:attr/progressBarStyleHorizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="3dp"
+                        android:layout_marginTop="10dp"
+                        android:max="100"
+                        android:progress="42"
+                        android:progressDrawable="@drawable/progress_cyber_horizontal" />
+                </LinearLayout>
+
+                <!-- RAM Card -->
+                <LinearLayout
+                    android:id="@+id/cardRam"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_card_cyber"
+                    android:orientation="vertical"
+                    android:padding="12dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:contentDescription="@string/metric_ram"
+                            android:src="@drawable/ic_ram" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:letterSpacing="0.08"
+                            android:text="@string/metric_ram"
+                            android:textColor="@color/vajra_text_secondary"
+                            android:textSize="11sp" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/ramValueText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="2.1 / 3.6 GB"
+                        android:textColor="@color/vajra_text_primary"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <ProgressBar
+                        android:id="@+id/ramProgressBar"
+                        style="?android:attr/progressBarStyleHorizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="3dp"
+                        android:layout_marginTop="10dp"
+                        android:max="100"
+                        android:progress="58"
+                        android:progressDrawable="@drawable/progress_cyber_horizontal" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- Row 2: Battery and Temperature -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:orientation="horizontal">
+
+                <!-- Battery Card -->
+                <LinearLayout
+                    android:id="@+id/cardBattery"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="6dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_card_cyber"
+                    android:orientation="vertical"
+                    android:padding="12dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:contentDescription="@string/metric_battery"
+                            android:src="@drawable/ic_battery" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:letterSpacing="0.08"
+                            android:text="@string/metric_battery"
+                            android:textColor="@color/vajra_text_secondary"
+                            android:textSize="11sp" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/batteryValueText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="74%"
+                        android:textColor="@color/vajra_text_primary"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <ProgressBar
+                        android:id="@+id/batteryProgressBar"
+                        style="?android:attr/progressBarStyleHorizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="3dp"
+                        android:layout_marginTop="10dp"
+                        android:max="100"
+                        android:progress="74"
+                        android:progressDrawable="@drawable/progress_cyber_horizontal" />
+                </LinearLayout>
+
+                <!-- Temperature Card -->
+                <LinearLayout
+                    android:id="@+id/cardTemp"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_card_cyber"
+                    android:orientation="vertical"
+                    android:padding="12dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:contentDescription="@string/metric_temp"
+                            android:src="@drawable/ic_temp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:letterSpacing="0.08"
+                            android:text="@string/metric_temp"
+                            android:textColor="@color/vajra_text_secondary"
+                            android:textSize="11sp" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/tempValueText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="39°C"
+                        android:textColor="@color/vajra_text_primary"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <!-- Spacer matching progress bar height -->
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="3dp"
+                        android:layout_marginTop="10dp" />
+                </LinearLayout>
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- Secondary Row: Wi-Fi, VPN, Uptime (3 Columns) -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:baselineAligned="false"
+            android:orientation="horizontal">
+
+            <!-- Wi-Fi Card -->
+            <LinearLayout
+                android:id="@+id/cardWifi"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="4dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_card_cyber"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:contentDescription="@string/metric_wifi"
+                    android:src="@drawable/ic_wifi" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:text="@string/metric_wifi"
+                    android:textColor="@color/vajra_text_secondary"
+                    android:textSize="11sp" />
+
+                <TextView
+                    android:id="@+id/wifiStatusText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="@string/status_connected"
+                    android:textColor="@color/vajra_text_primary"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/wifiIpText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="1dp"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="192.168.1.20"
+                    android:textColor="@color/vajra_text_tertiary"
+                    android:textSize="10sp" />
+            </LinearLayout>
+
+            <!-- VPN Card -->
+            <LinearLayout
+                android:id="@+id/cardVpn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="4dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_card_cyber"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:contentDescription="@string/metric_vpn"
+                    android:src="@drawable/ic_vpn" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:text="@string/metric_vpn"
+                    android:textColor="@color/vajra_text_secondary"
+                    android:textSize="11sp" />
+
+                <TextView
+                    android:id="@+id/vpnStatusText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="@string/status_off"
+                    android:textColor="@color/vajra_text_primary"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <!-- Uptime Card -->
+            <LinearLayout
+                android:id="@+id/cardUptime"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_card_cyber"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:contentDescription="@string/metric_uptime"
+                    android:src="@drawable/ic_uptime" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:text="@string/metric_uptime"
+                    android:textColor="@color/vajra_text_secondary"
+                    android:textSize="11sp" />
+
+                <TextView
+                    android:id="@+id/uptimeStatusText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="4h 21m"
+                    android:textColor="@color/vajra_text_primary"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>

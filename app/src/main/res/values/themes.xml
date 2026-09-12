@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Base Cyber Deck Theme (Dark) -->
+    <style name="Theme.Vajra" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:windowBackground">@color/vajra_bg_dark</item>
+        <item name="android:colorBackground">@color/vajra_bg_dark</item>
+        <item name="android:statusBarColor">@color/vajra_bg_dark</item>
+        <item name="android:navigationBarColor">@color/vajra_bg_dark</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowLightNavigationBar">false</item>
+        <item name="android:textColorPrimary">@color/vajra_text_primary</item>
+        <item name="android:textColorSecondary">@color/vajra_text_secondary</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="colorPrimary">@color/vajra_accent_blue</item>
+        <item name="colorAccent">@color/vajra_accent_blue</item>
+    </style>
+
+    <!-- AMOLED Cyber Deck Theme (Pure #000000) -->
+    <style name="Theme.Vajra.Amoled" parent="Theme.Vajra">
+        <item name="android:windowBackground">@color/vajra_bg_amoled</item>
+        <item name="android:colorBackground">@color/vajra_bg_amoled</item>
+        <item name="android:statusBarColor">@color/vajra_bg_amoled</item>
+        <item name="android:navigationBarColor">@color/vajra_bg_amoled</item>
+    </style>
+
+    <!-- Technical Light Theme -->
+    <style name="Theme.Vajra.Light" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowBackground">@color/vajra_bg_light</item>
+        <item name="android:colorBackground">@color/vajra_bg_light</item>
+        <item name="android:statusBarColor">@color/vajra_bg_light</item>
+        <item name="android:navigationBarColor">@color/vajra_bg_light</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowLightNavigationBar">true</item>
+        <item name="android:textColorPrimary">@color/vajra_text_primary_light</item>
+        <item name="android:textColorSecondary">@color/vajra_text_secondary_light</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="colorPrimary">@color/vajra_accent_blue</item>
+        <item name="colorAccent">@color/vajra_accent_blue</item>
+    </style>
+
+</resources>

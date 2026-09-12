@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Vajra</string>
+    <string name="tagline_small_devices">SMALL DEVICES\nBIGGER POSSIBILITIES</string>
+    <string name="tagline_open_world">BUILT FOR A MORE OPEN WORLD</string>
+
+    <!-- Splash Statuses -->
+    <string name="splash_init_interface">Initializing interface</string>
+    <string name="splash_load_modules">Loading modules</string>
+    <string name="splash_check_env">Checking environment</string>
+    <string name="splash_prep_workspace">Preparing workspace</string>
+    <string name="status_ok">OK</string>
+
+    <!-- Bottom Navigation -->
+    <string name="nav_home">Home</string>
+    <string name="nav_cyber">Cyber</string>
+    <string name="nav_apps">Apps</string>
+    <string name="nav_system">System</string>
+
+    <!-- Dashboard -->
+    <string name="dashboard_ready">READY WHEN YOU ARE</string>
+    <string name="metric_cpu">CPU</string>
+    <string name="metric_ram">RAM</string>
+    <string name="metric_battery">BATTERY</string>
+    <string name="metric_temp">TEMP</string>
+    <string name="metric_wifi">Wi-Fi</string>
+    <string name="metric_vpn">VPN</string>
+    <string name="metric_uptime">Uptime</string>
+    <string name="status_connected">Connected</string>
+    <string name="status_disconnected">Disconnected</string>
+    <string name="status_off">Off</string>
+    <string name="status_on">On</string>
+    <string name="status_unavailable">Unavailable</string>
+
+    <!-- Cyber -->
+    <string name="cyber_title">CYBER</string>
+    <string name="cyber_subtitle">TOOLS FOR A MORE OPEN WORLD</string>
+    <string name="search_tools_hint">Search tools…</string>
+    <string name="search_apps_hint">Search apps…</string>
+    <string name="search_global_hint">Search…</string>
+
+    <!-- Tool Details & Config -->
+    <string name="status_installed">Installed</string>
+    <string name="status_not_installed">Not installed</string>
+    <string name="action_quick_scan">Quick Scan</string>
+    <string name="action_adv_config">Advanced Configuration</string>
+    <string name="action_view_docs">View Documentation</string>
+    <string name="action_run_scan">Run Scan</string>
+    <string name="label_examples">Examples</string>
+    <string name="label_target">Target</string>
+    <string name="label_scan_type">Scan Type</string>
+    <string name="label_ports">Ports</string>
+    <string name="opt_service_detection">Service detection (-sV)</string>
+    <string name="opt_os_detection">OS detection (-O)</string>
+    <string name="opt_aggressive_scan">Aggressive scan (-A)</string>
+    <string name="label_more_options">More options</string>
+
+    <!-- Apps Drawer -->
+    <string name="apps_title">APPS</string>
+    <string name="apps_subtitle">INSTALLED APPLICATIONS</string>
+    <string name="handoff_open_launcher">Open Default Android Launcher</string>
+
+    <!-- Customization -->
+    <string name="custom_title">CUSTOMIZE</string>
+    <string name="custom_subtitle">MAKE IT YOURS</string>
+    <string name="setting_theme">Theme</string>
+    <string name="setting_theme_desc">Dark / Light / AMOLED</string>
+    <string name="setting_layout">Layout</string>
+    <string name="setting_layout_desc">Dashboard, grid, navigation</string>
+    <string name="setting_accent">Accent Colors</string>
+    <string name="setting_accent_desc">Customize module colors</string>
+    <string name="setting_categories">Visible Categories</string>
+    <string name="setting_categories_desc">Select and reorder</string>
+    <string name="setting_widgets">Widgets</string>
+    <string name="setting_widgets_desc">Choose what to show</string>
+    <string name="setting_haptics">Haptics</string>
+    <string name="setting_haptics_desc">Feedback settings</string>
+    <string name="setting_reset">Reset to Default</string>
+    <string name="setting_reset_desc">Restore original settings</string>
+
+    <!-- System -->
+    <string name="system_title">SYSTEM</string>
+    <string name="system_subtitle">DEVICE INFORMATION</string>
+    <string name="section_device">Device</string>
+    <string name="section_resources">Resources</string>
+    <string name="section_network">Network</string>
+    <string name="section_connectivity">Connectivity</string>
+</resources>
