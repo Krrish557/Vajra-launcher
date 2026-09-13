@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_card_cyber"
+    android:orientation="vertical"
+    android:padding="20dp">
+
+    <!-- Header / Title -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:contentDescription="@null"
+            android:src="@drawable/ic_cat_recon"
+            app:tint="@color/vajra_accent_cyan" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_weight="1"
+            android:letterSpacing="0.05"
+            android:text="TACTICAL SCAN SPECIFICATION"
+            android:textColor="@color/vajra_text_primary"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/dialogTargetSubtitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:text="Target environment: Debian GNU/Linux (PRoot)"
+        android:textColor="@color/vajra_text_secondary"
+        android:textSize="11sp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="12dp"
+        android:background="@color/vajra_border_dark" />
+
+    <!-- Prompt / Notice -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:lineSpacingExtra="2dp"
+        android:text="Specify destination target for controlled execution. Arbitrary shell arguments and characters are rejected."
+        android:textColor="@color/vajra_text_secondary"
+        android:textSize="12sp" />
+
+    <!-- Target Input Label -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="14dp"
+        android:letterSpacing="0.04"
+        android:text="TARGET SPECIFICATION"
+        android:textColor="@color/vajra_accent_cyan"
+        android:textSize="10sp"
+        android:textStyle="bold" />
+
+    <!-- Target EditText -->
+    <EditText
+        android:id="@+id/inputScanTarget"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:layout_marginTop="6dp"
+        android:background="@drawable/bg_input_field"
+        android:fontFamily="monospace"
+        android:hint="127.0.0.1"
+        android:imeOptions="actionDone"
+        android:inputType="textUri|textNoSuggestions"
+        android:paddingHorizontal="12dp"
+        android:text="127.0.0.1"
+        android:textColor="@color/vajra_text_primary"
+        android:textColorHint="@color/vajra_text_tertiary"
+        android:textSize="13sp" />
+
+    <!-- Error message text -->
+    <TextView
+        android:id="@+id/txtTargetError"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="Invalid target: IPv4, IPv6, or safe hostname required."
+        android:textColor="@color/vajra_badge_error_text"
+        android:textSize="11sp"
+        android:visibility="gone" />
+
+    <!-- Command Preview Box -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/bg_code_box"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:letterSpacing="0.04"
+            android:text="PROPOSED COMMAND"
+            android:textColor="@color/vajra_text_tertiary"
+            android:textSize="9sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/txtProposedCommand"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:fontFamily="monospace"
+            android:text="nmap -sT -Pn -T4 -F 127.0.0.1"
+            android:textColor="@color/vajra_text_code"
+            android:textSize="11sp" />
+    </LinearLayout>
+
+    <!-- Progress Indicator (hidden by default) -->
+    <LinearLayout
+        android:id="@+id/layoutScanProgress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="14dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+        <ProgressBar
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:indeterminate="true" />
+
+        <TextView
+            android:id="@+id/txtScanProgressStatus"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_weight="1"
+            android:text="Executing tactical scan in Debian..."
+            android:textColor="@color/vajra_accent_cyan"
+            android:textSize="12sp" />
+    </LinearLayout>
+
+    <!-- Action Buttons -->
+    <LinearLayout
+        android:id="@+id/layoutScanButtons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
+        android:gravity="end"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/btnCancelScan"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:background="@drawable/bg_button_secondary"
+            android:gravity="center"
+            android:letterSpacing="0.05"
+            android:paddingHorizontal="16dp"
+            android:text="CANCEL"
+            android:textColor="@color/vajra_text_secondary"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/btnConfirmScan"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginStart="10dp"
+            android:background="@drawable/bg_button_primary"
+            android:gravity="center"
+            android:letterSpacing="0.05"
+            android:paddingHorizontal="18dp"
+            android:text="EXECUTE SCAN"
+            android:textColor="@color/color_primary_btn_text"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+</LinearLayout>

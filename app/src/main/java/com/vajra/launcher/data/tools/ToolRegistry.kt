@@ -131,7 +131,7 @@ object ToolRegistry {
             executable = "nmap",
             state = InstallationState.INSTALLED,
             iconRes = R.drawable.ic_cat_recon,
-            version = "7.94",
+            version = "7.95",
             quickActions = listOf(
                 ToolAction("quick_scan", "Quick Scan", "nmap -T4 -F {target}", "Fast scan top 100 ports"),
                 ToolAction("ping_sweep", "Ping Sweep", "nmap -sn {target}", "ICMP and ARP host discovery")

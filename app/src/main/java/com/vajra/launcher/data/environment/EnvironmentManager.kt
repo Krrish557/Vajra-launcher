@@ -1,15 +1,18 @@
 package com.vajra.launcher.data.environment
 
 import android.content.Context
+import com.vajra.launcher.models.CommunicationStatus
 import com.vajra.launcher.models.EnvironmentInfo
+import com.vajra.launcher.models.EnvironmentStatus
 import com.vajra.launcher.models.EnvironmentType
 import com.vajra.launcher.models.TermuxLaunchResult
 
 class EnvironmentManager(private val context: Context) {
 
-    val termuxProvider = TermuxEnvironmentProvider(context)
-    val linuxProvider = LinuxEnvironmentProvider(context)
-    val debianProvider = DebianEnvironmentProvider(context)
+    val termuxBridge = TermuxBridge(context)
+    val termuxProvider = TermuxEnvironmentProvider(context, termuxBridge)
+    val linuxProvider = LinuxEnvironmentProvider(context, termuxBridge)
+    val debianProvider = DebianEnvironmentProvider(context, termuxBridge)
 
     private val providers = listOf(
         termuxProvider,
@@ -27,7 +30,7 @@ class EnvironmentManager(private val context: Context) {
                 type = type,
                 name = type.label,
                 isAvailable = false,
-                status = com.vajra.launcher.models.EnvironmentStatus.UNKNOWN,
+                status = EnvironmentStatus.UNKNOWN,
                 description = "Unknown environment specification."
             )
     }
@@ -38,6 +41,18 @@ class EnvironmentManager(private val context: Context) {
 
     fun getTermuxInfo(): EnvironmentInfo {
         return termuxProvider.getInfo()
+    }
+
+    fun getCommunicationStatus(): CommunicationStatus {
+        return termuxBridge.checkCommunicationStatus()
+    }
+
+    fun getLinuxInfo(): EnvironmentInfo {
+        return linuxProvider.getInfo()
+    }
+
+    fun getDebianInfo(): EnvironmentInfo {
+        return debianProvider.getInfo()
     }
 
     fun launchTermux(callerContext: Context = context): TermuxLaunchResult {

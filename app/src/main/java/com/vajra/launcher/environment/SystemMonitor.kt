@@ -102,8 +102,9 @@ class SystemMonitor(context: Context) {
                             "Not installed"
                         }
                     ),
-                    SystemMetric("Linux", envManager.linuxProvider.getInfo().status.label),
-                    SystemMetric("Debian", envManager.debianProvider.getInfo().status.label)
+                    SystemMetric("Communication", envManager.getCommunicationStatus().label),
+                    SystemMetric("Linux", envManager.getLinuxInfo().status.label),
+                    SystemMetric("Debian", envManager.getDebianInfo().status.label)
                 )
             ),
             SystemSection(
