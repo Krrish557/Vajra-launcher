@@ -19,6 +19,7 @@ import com.vajra.launcher.databinding.ActivityMainBinding
 import com.vajra.launcher.environment.SystemMonitor
 import com.vajra.launcher.data.environment.EnvironmentRouter
 import com.vajra.launcher.data.executor.ToolExecutor
+import com.vajra.launcher.data.tools.ToolStatusResolver
 import com.vajra.launcher.ui.controllers.AppsDrawerViewController
 import com.vajra.launcher.ui.controllers.CustomizationViewController
 import com.vajra.launcher.ui.controllers.CyberCategoriesViewController
@@ -42,6 +43,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var environmentManager: com.vajra.launcher.data.environment.EnvironmentManager
     private lateinit var environmentRouter: EnvironmentRouter
     private lateinit var toolExecutor: ToolExecutor
+    private lateinit var toolStatusResolver: ToolStatusResolver
 
     private val backStack = ArrayDeque<Screen>()
     private var currentScreen: Screen? = null
@@ -66,6 +68,7 @@ class MainActivity : AppCompatActivity() {
         environmentManager = com.vajra.launcher.data.environment.EnvironmentManager(this)
         environmentRouter = EnvironmentRouter(environmentManager)
         toolExecutor = ToolExecutor(environmentRouter)
+        toolStatusResolver = ToolStatusResolver(environmentManager)
         systemMonitor = SystemMonitor(this)
         appRepository = AppRepository(this)
         searchProvider = SearchProvider(appRepository)
@@ -213,6 +216,8 @@ class MainActivity : AppCompatActivity() {
                 val controller = ToolListViewController(
                     container = binding.screenContainer,
                     categoryId = screen.categoryId,
+                    toolStatusResolver = toolStatusResolver,
+                    scope = lifecycleScope,
                     onToolSelected = { toolId -> navigateTo(Screen.ToolDetails(toolId)) },
                     onBack = { onBackPressedDispatcher.onBackPressed() }
                 )
@@ -224,6 +229,7 @@ class MainActivity : AppCompatActivity() {
                     container = binding.screenContainer,
                     toolId = screen.toolId,
                     toolExecutor = toolExecutor,
+                    toolStatusResolver = toolStatusResolver,
                     scope = lifecycleScope,
                     onAdvConfigSelected = { toolId -> navigateTo(Screen.ToolConfig(toolId)) },
                     onBack = { onBackPressedDispatcher.onBackPressed() }

@@ -76,11 +76,19 @@ class EnvironmentRouter(
                 }
 
                 // Assemble controlled arguments array based on tool & action
-                // Use -sT (TCP Connect) and -Pn (skip ICMP host discovery) for non-root Android compatibility
-                val toolArgs = when (request.actionId) {
-                    "quick_scan" -> arrayOf("login", "debian", "--", "nmap", "-sT", "-Pn", "-T4", "-F", sanitizedTarget)
-                    "service_scan" -> arrayOf("login", "debian", "--", "nmap", "-sT", "-Pn", "-sV", "-T4", sanitizedTarget)
-                    else -> arrayOf("login", "debian", "--", "nmap", "-sT", "-Pn", "-T4", "-F", sanitizedTarget)
+                val toolArgs = when (tool.id.lowercase()) {
+                    "nmap" -> {
+                        when (request.actionId) {
+                            "service_scan" -> arrayOf("login", "debian", "--", "nmap", "-sT", "-Pn", "-sV", "-T4", sanitizedTarget)
+                            else -> arrayOf("login", "debian", "--", "nmap", "-sT", "-Pn", "-T4", "-F", sanitizedTarget)
+                        }
+                    }
+                    "netdiscover" -> arrayOf("login", "debian", "--", "netdiscover", "-r", sanitizedTarget)
+                    "whatweb" -> arrayOf("login", "debian", "--", "whatweb", sanitizedTarget)
+                    "subfinder" -> arrayOf("login", "debian", "--", "subfinder", "-d", sanitizedTarget)
+                    "nikto" -> arrayOf("login", "debian", "--", "nikto", "-h", sanitizedTarget)
+                    "sqlmap" -> arrayOf("login", "debian", "--", "sqlmap", "-u", sanitizedTarget, "--batch")
+                    else -> arrayOf("login", "debian", "--", tool.executable, sanitizedTarget)
                 }
 
                 environmentManager.termuxBridge.executeControlled(

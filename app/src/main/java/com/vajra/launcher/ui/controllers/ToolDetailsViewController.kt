@@ -17,22 +17,27 @@ import com.vajra.launcher.data.environment.EnvironmentRouter
 import com.vajra.launcher.data.executor.TargetValidator
 import com.vajra.launcher.data.executor.ToolExecutor
 import com.vajra.launcher.data.tools.ToolRegistry
+import com.vajra.launcher.data.tools.ToolStatusResolver
 import com.vajra.launcher.databinding.DialogExecutionResultBinding
 import com.vajra.launcher.databinding.DialogScanTargetBinding
+import com.vajra.launcher.databinding.DialogToolInstallGuideBinding
 import com.vajra.launcher.databinding.ScreenToolDetailsBinding
 import com.vajra.launcher.models.ExecutionResult
 import com.vajra.launcher.models.InstallationState
 import com.vajra.launcher.models.ToolDefinition
+import com.vajra.launcher.models.ToolEnvironment
 import com.vajra.launcher.models.ToolExecutionRequest
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.util.Locale
 
 class ToolDetailsViewController(
     container: ViewGroup,
     val toolId: String,
     private val toolExecutor: ToolExecutor? = null,
+    private val toolStatusResolver: ToolStatusResolver? = null,
     private val scope: CoroutineScope? = null,
     private val onAdvConfigSelected: (String) -> Unit,
     private val onBack: () -> Unit
@@ -45,9 +50,8 @@ class ToolDetailsViewController(
 
     private val context = container.context
     private val envManager = EnvironmentManager(context)
-    private val activeExecutor = toolExecutor ?: ToolExecutor(
-        EnvironmentRouter(envManager)
-    )
+    private val activeExecutor = toolExecutor ?: ToolExecutor(EnvironmentRouter(envManager))
+    private val activeResolver = toolStatusResolver ?: ToolStatusResolver(envManager)
     private val activeScope = scope ?: CoroutineScope(Dispatchers.Main)
 
     init {
@@ -60,24 +64,6 @@ class ToolDetailsViewController(
         binding.toolDetailsEnvironment.text = tool.environment.label
         binding.toolDetailsVersion.text = tool.version ?: "N/A"
         binding.toolDetailsExecutable.text = tool.executable
-
-        // Status badge
-        when (tool.state) {
-            InstallationState.INSTALLED -> {
-                binding.toolDetailsStatusBadge.text = "● ${tool.state.label}"
-                binding.toolDetailsStatusBadge.setBackgroundResource(R.drawable.bg_badge_installed)
-                binding.toolDetailsStatusBadge.setTextColor(
-                    ContextCompat.getColor(context, R.color.vajra_badge_installed_text)
-                )
-            }
-            else -> {
-                binding.toolDetailsStatusBadge.text = tool.state.label
-                binding.toolDetailsStatusBadge.setBackgroundResource(R.drawable.bg_badge_uninstalled)
-                binding.toolDetailsStatusBadge.setTextColor(
-                    ContextCompat.getColor(context, R.color.vajra_badge_uninstalled_text)
-                )
-            }
-        }
 
         // Examples
         if (tool.examples.isNotEmpty()) {
@@ -92,41 +78,6 @@ class ToolDetailsViewController(
 
         binding.toolDetailsMenuBtn.setOnClickListener {
             Toast.makeText(context, "${tool.name} options", Toast.LENGTH_SHORT).show()
-        }
-
-        // Configure Primary Action Button
-        if (tool.id.equals("termux", ignoreCase = true)) {
-            binding.btnQuickScanText.text = "OPEN TERMUX"
-            binding.btnQuickScan.setOnClickListener {
-                when (val res = envManager.launchTermux(context)) {
-                    is com.vajra.launcher.models.TermuxLaunchResult.Success -> {
-                        // Launched successfully
-                    }
-                    is com.vajra.launcher.models.TermuxLaunchResult.NotInstalled -> {
-                        Toast.makeText(context, "Termux is not installed on this device.", Toast.LENGTH_SHORT).show()
-                    }
-                    is com.vajra.launcher.models.TermuxLaunchResult.Failed -> {
-                        Toast.makeText(context, res.reason, Toast.LENGTH_LONG).show()
-                    }
-                }
-            }
-        } else if (tool.id.equals("nmap", ignoreCase = true)) {
-            binding.btnQuickScanText.text = "QUICK SCAN"
-            binding.btnQuickScan.setOnClickListener {
-                showScanTargetDialog(tool)
-            }
-        } else {
-            val firstAction = tool.quickActions.firstOrNull()
-            val actionLabel = firstAction?.label?.uppercase() ?: "EXECUTE"
-            binding.btnQuickScanText.text = actionLabel
-            binding.btnQuickScan.setOnClickListener {
-                val cmd = firstAction?.commandTemplate ?: "${tool.executable} {target}"
-                Toast.makeText(
-                    context,
-                    "$actionLabel: $cmd (Requires configured tool environment)",
-                    Toast.LENGTH_LONG
-                ).show()
-            }
         }
 
         binding.btnAdvConfig.setOnClickListener {
@@ -145,6 +96,82 @@ class ToolDetailsViewController(
                 .setPositiveButton("Close", null)
                 .show()
         }
+
+        // Initial UI binding using cached status
+        val cachedStatus = activeResolver.getCachedStatus(tool)
+        updateStatusUI(tool, cachedStatus)
+
+        // Asynchronous live binary verification in background
+        activeScope.launch {
+            val liveStatus = activeResolver.resolveStatusAsync(tool)
+            withContext(Dispatchers.Main) {
+                updateStatusUI(tool, liveStatus)
+            }
+        }
+    }
+
+    private fun updateStatusUI(tool: ToolDefinition, status: InstallationState) {
+        when (status) {
+            InstallationState.INSTALLED -> {
+                binding.toolDetailsStatusBadge.text = "● Installed"
+                binding.toolDetailsStatusBadge.setBackgroundResource(R.drawable.bg_badge_installed)
+                binding.toolDetailsStatusBadge.setTextColor(
+                    ContextCompat.getColor(context, R.color.vajra_badge_installed_text)
+                )
+
+                binding.btnQuickScanText.text = if (tool.id.equals("nmap", ignoreCase = true)) {
+                    "QUICK SCAN"
+                } else if (tool.id.equals("termux", ignoreCase = true)) {
+                    "OPEN TERMUX"
+                } else {
+                    "EXECUTE"
+                }
+
+                binding.btnQuickScan.setOnClickListener {
+                    if (tool.id.equals("termux", ignoreCase = true)) {
+                        envManager.launchTermux(context)
+                    } else {
+                        showScanTargetDialog(tool)
+                    }
+                }
+            }
+            InstallationState.NOT_INSTALLED -> {
+                binding.toolDetailsStatusBadge.text = "● Not Installed"
+                binding.toolDetailsStatusBadge.setBackgroundResource(R.drawable.bg_badge_uninstalled)
+                binding.toolDetailsStatusBadge.setTextColor(
+                    ContextCompat.getColor(context, R.color.vajra_badge_error_text)
+                )
+
+                binding.btnQuickScanText.text = "INSTALL IN TERMUX"
+                binding.btnQuickScan.setOnClickListener {
+                    showInstallGuideDialog(tool)
+                }
+            }
+            else -> {
+                binding.toolDetailsStatusBadge.text = "● ${status.label}"
+                binding.toolDetailsStatusBadge.setBackgroundResource(R.drawable.bg_badge_uninstalled)
+                binding.toolDetailsStatusBadge.setTextColor(
+                    ContextCompat.getColor(context, R.color.vajra_text_secondary)
+                )
+
+                binding.btnQuickScanText.text = "CONFIGURE ENVIRONMENT"
+                binding.btnQuickScan.setOnClickListener {
+                    showInstallGuideDialog(tool)
+                }
+            }
+        }
+    }
+
+    private fun getProposedCommand(tool: ToolDefinition, target: String): String {
+        return when (tool.id.lowercase()) {
+            "nmap" -> "nmap -sT -Pn -T4 -F $target"
+            "netdiscover" -> "netdiscover -r $target"
+            "subfinder" -> "subfinder -d $target"
+            "whatweb" -> "whatweb $target"
+            "nikto" -> "nikto -h $target"
+            "sqlmap" -> "sqlmap -u $target --batch"
+            else -> "${tool.executable} $target"
+        }
     }
 
     private fun showScanTargetDialog(tool: ToolDefinition) {
@@ -159,14 +186,18 @@ class ToolDetailsViewController(
         dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
 
         // Pre-populate target
-        targetBinding.inputScanTarget.setText("127.0.0.1")
-        targetBinding.txtProposedCommand.text = "nmap -sT -Pn -T4 -F 127.0.0.1"
+        val defaultTarget = when (tool.id.lowercase()) {
+            "subfinder", "whatweb", "nikto" -> "example.com"
+            else -> "127.0.0.1"
+        }
+        targetBinding.inputScanTarget.setText(defaultTarget)
+        targetBinding.txtProposedCommand.text = getProposedCommand(tool, defaultTarget)
 
         targetBinding.inputScanTarget.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 val input = s?.toString()?.trim().orEmpty()
-                targetBinding.txtProposedCommand.text = "nmap -sT -Pn -T4 -F $input"
+                targetBinding.txtProposedCommand.text = getProposedCommand(tool, input)
                 targetBinding.txtTargetError.visibility = View.GONE
             }
             override fun afterTextChanged(s: Editable?) {}
@@ -205,6 +236,80 @@ class ToolDetailsViewController(
                 dialog.dismiss()
                 showExecutionResultDialog(tool, rawTarget, result)
             }
+        }
+
+        dialog.show()
+    }
+
+    private fun showInstallGuideDialog(tool: ToolDefinition) {
+        val guideBinding = DialogToolInstallGuideBinding.inflate(LayoutInflater.from(context))
+        guideBinding.guideToolInfo.text = "Tool: ${tool.name} • Environment: ${tool.environment.label}"
+
+        val pkgName = tool.packageName ?: tool.executable
+        val installSnippet = tool.installInstructions ?: when (tool.environment) {
+            ToolEnvironment.DEBIAN -> "proot-distro login debian\napt update && apt install -y $pkgName"
+            ToolEnvironment.TERMUX -> "pkg update && pkg install -y $pkgName"
+            else -> "apt update && apt install -y $pkgName"
+        }
+        guideBinding.txtInstallCommands.text = installSnippet
+
+        val dialog = AlertDialog.Builder(context)
+            .setView(guideBinding.root)
+            .setCancelable(true)
+            .create()
+
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+
+        guideBinding.btnCopyInstallCmd.setOnClickListener {
+            val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+            val clip = ClipData.newPlainText("Install Commands", installSnippet)
+            clipboard.setPrimaryClip(clip)
+            Toast.makeText(context, "Installation commands copied to clipboard", Toast.LENGTH_SHORT).show()
+        }
+
+        guideBinding.btnLaunchTermux.setOnClickListener {
+            val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+            val clip = ClipData.newPlainText("Install Commands", installSnippet)
+            clipboard.setPrimaryClip(clip)
+            Toast.makeText(context, "Commands copied! Launching Termux...", Toast.LENGTH_SHORT).show()
+            envManager.launchTermux(context)
+        }
+
+        guideBinding.btnRecheckStatus.setOnClickListener {
+            guideBinding.layoutRecheckingProgress.visibility = View.VISIBLE
+            guideBinding.txtVerificationFeedback.visibility = View.GONE
+            guideBinding.btnRecheckStatus.isEnabled = false
+
+            activeScope.launch {
+                val newStatus = activeResolver.resolveStatusAsync(tool, forceRefresh = true)
+                withContext(Dispatchers.Main) {
+                    guideBinding.layoutRecheckingProgress.visibility = View.GONE
+                    guideBinding.btnRecheckStatus.isEnabled = true
+                    guideBinding.txtVerificationFeedback.visibility = View.VISIBLE
+
+                    if (newStatus == InstallationState.INSTALLED) {
+                        guideBinding.txtVerificationFeedback.text = "✓ Binary detected! Tool is now INSTALLED."
+                        guideBinding.txtVerificationFeedback.setTextColor(
+                            ContextCompat.getColor(context, R.color.vajra_badge_installed_text)
+                        )
+                        guideBinding.guideStatusBadge.text = "INSTALLED"
+                        guideBinding.guideStatusBadge.setTextColor(
+                            ContextCompat.getColor(context, R.color.vajra_badge_installed_text)
+                        )
+                        guideBinding.guideStatusBadge.setBackgroundResource(R.drawable.bg_badge_installed)
+                        updateStatusUI(tool, newStatus)
+                    } else {
+                        guideBinding.txtVerificationFeedback.text = "✗ Binary '$pkgName' not detected yet in ${tool.environment.label}."
+                        guideBinding.txtVerificationFeedback.setTextColor(
+                            ContextCompat.getColor(context, R.color.vajra_badge_error_text)
+                        )
+                    }
+                }
+            }
+        }
+
+        guideBinding.btnDismissGuide.setOnClickListener {
+            dialog.dismiss()
         }
 
         dialog.show()
@@ -249,19 +354,16 @@ class ToolDetailsViewController(
             }
         }
 
-        val outputContent = if (result.stdout.isNotBlank()) {
+        resultBinding.txtExecutionOutput.text = if (result.stdout.isNotBlank()) {
             result.stdout
-        } else if (result.stderr.isNotBlank()) {
-            "[No stdout - See Stderr below]\n${result.stderr}"
         } else {
-            "[Process finished with exit code ${result.exitCode} - No output]"
+            "[No output returned]"
         }
-
-        resultBinding.txtExecutionOutput.text = outputContent
 
         resultBinding.btnCopyResult.setOnClickListener {
             val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-            val clip = ClipData.newPlainText("Vajra Scan Result", outputContent)
+            val outputToCopy = if (result.stdout.isNotBlank()) result.stdout else result.stderr
+            val clip = ClipData.newPlainText("Tactical Output", outputToCopy)
             clipboard.setPrimaryClip(clip)
             Toast.makeText(context, "Scan output copied to clipboard", Toast.LENGTH_SHORT).show()
         }

@@ -5,12 +5,14 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.vajra.launcher.R
+import com.vajra.launcher.data.tools.ToolStatusResolver
 import com.vajra.launcher.databinding.ItemToolRowBinding
 import com.vajra.launcher.models.InstallationState
 import com.vajra.launcher.models.ToolDefinition
 
 class ToolAdapter(
     private var tools: List<ToolDefinition>,
+    private val toolStatusResolver: ToolStatusResolver? = null,
     private val onToolClick: (ToolDefinition) -> Unit
 ) : RecyclerView.Adapter<ToolAdapter.ToolViewHolder>() {
 
@@ -34,24 +36,25 @@ class ToolAdapter(
         holder.binding.toolDescription.text = tool.description
         holder.binding.toolIcon.setImageResource(tool.iconRes)
 
-        // Status badge styling
-        when (tool.state) {
+        // Status badge styling with dynamic status check
+        val currentStatus = toolStatusResolver?.getCachedStatus(tool) ?: tool.state
+        when (currentStatus) {
             InstallationState.INSTALLED -> {
-                holder.binding.toolStatusBadge.text = tool.state.label
+                holder.binding.toolStatusBadge.text = currentStatus.label
                 holder.binding.toolStatusBadge.setBackgroundResource(R.drawable.bg_badge_installed)
                 holder.binding.toolStatusBadge.setTextColor(
                     ContextCompat.getColor(context, R.color.vajra_badge_installed_text)
                 )
             }
             InstallationState.NOT_INSTALLED -> {
-                holder.binding.toolStatusBadge.text = tool.state.label
+                holder.binding.toolStatusBadge.text = currentStatus.label
                 holder.binding.toolStatusBadge.setBackgroundResource(R.drawable.bg_badge_uninstalled)
                 holder.binding.toolStatusBadge.setTextColor(
                     ContextCompat.getColor(context, R.color.vajra_badge_uninstalled_text)
                 )
             }
             else -> {
-                holder.binding.toolStatusBadge.text = tool.state.label
+                holder.binding.toolStatusBadge.text = currentStatus.label
                 holder.binding.toolStatusBadge.setBackgroundResource(R.drawable.bg_badge_uninstalled)
                 holder.binding.toolStatusBadge.setTextColor(
                     ContextCompat.getColor(context, R.color.vajra_text_secondary)

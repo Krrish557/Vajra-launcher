@@ -18,7 +18,9 @@ data class ToolDefinition(
     val documentation: ToolDocumentation? = null,
     val examples: List<String> = emptyList(),
     val requiresRoot: Boolean = false,
-    val requiresNetwork: Boolean = false
+    val requiresNetwork: Boolean = false,
+    val packageName: String? = null,
+    val installInstructions: String? = null
 ) {
     /**
      * Declared baseline state in the tool catalog.

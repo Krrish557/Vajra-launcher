@@ -159,9 +159,10 @@ object ToolRegistry {
             description = "Active host discovery",
             fullDescription = "An active/passive address reconnaissance tool, mainly developed for wireless networks without DHCP servers.",
             executable = "netdiscover",
-            state = InstallationState.INSTALLED,
+            state = InstallationState.NOT_INSTALLED,
             iconRes = R.drawable.ic_cat_recon,
             version = "0.9",
+            packageName = "netdiscover",
             examples = listOf(
                 "netdiscover -r 192.168.1.0/24",
                 "netdiscover -p"
@@ -174,9 +175,11 @@ object ToolRegistry {
             description = "Subdomain enumeration",
             fullDescription = "Subfinder is a subdomain discovery tool that discovers valid subdomains for websites by using passive online sources.",
             executable = "subfinder",
-            state = InstallationState.INSTALLED,
+            state = InstallationState.NOT_INSTALLED,
             iconRes = R.drawable.ic_cat_recon,
             version = "2.6.3",
+            packageName = "subfinder",
+            installInstructions = "proot-distro login debian\napt update && apt install -y subfinder || go install -v github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest",
             examples = listOf(
                 "subfinder -d target.com",
                 "subfinder -d target.com -o subs.txt"
@@ -191,6 +194,7 @@ object ToolRegistry {
             executable = "amass",
             state = InstallationState.NOT_INSTALLED,
             iconRes = R.drawable.ic_cat_recon,
+            packageName = "amass",
             examples = listOf(
                 "amass enum -d target.com",
                 "amass intel -whois -d target.com"
@@ -203,9 +207,10 @@ object ToolRegistry {
             description = "Web technology fingerprinting",
             fullDescription = "Next generation web scanner that identifies technologies used on websites including CMS, blogging platforms, and JS libraries.",
             executable = "whatweb",
-            state = InstallationState.INSTALLED,
+            state = InstallationState.NOT_INSTALLED,
             iconRes = R.drawable.ic_cat_recon,
             version = "0.5.5",
+            packageName = "whatweb",
             examples = listOf(
                 "whatweb target.com",
                 "whatweb -v -a 3 target.com"
@@ -220,6 +225,7 @@ object ToolRegistry {
             executable = "theharvester",
             state = InstallationState.NOT_INSTALLED,
             iconRes = R.drawable.ic_cat_recon,
+            packageName = "theharvester",
             examples = listOf(
                 "theHarvester -d target.com -b all"
             )
@@ -231,9 +237,10 @@ object ToolRegistry {
             description = "Reconnaissance framework",
             fullDescription = "A full-featured Web Reconnaissance framework written in Python with independent modules, database interaction, and built-in convenience functions.",
             executable = "recon-ng",
-            state = InstallationState.INSTALLED,
+            state = InstallationState.NOT_INSTALLED,
             iconRes = R.drawable.ic_cat_recon,
             version = "5.1.2",
+            packageName = "recon-ng",
             examples = listOf(
                 "recon-ng",
                 "marketplace install all"
@@ -333,9 +340,10 @@ object ToolRegistry {
             description = "SQL injection scanner",
             fullDescription = "Automatic SQL injection and database takeover tool.",
             executable = "sqlmap",
-            state = InstallationState.INSTALLED,
+            state = InstallationState.NOT_INSTALLED,
             iconRes = R.drawable.ic_cat_web,
             version = "1.8",
+            packageName = "sqlmap",
             examples = listOf(
                 "sqlmap -u 'http://target.com/item?id=1' --batch",
                 "sqlmap -u 'http://target.com/' --forms --dbs"
@@ -348,9 +356,10 @@ object ToolRegistry {
             description = "Directory/DNS bruteforcer",
             fullDescription = "Fast tool for brute-forcing URIs (directories and files) in web sites, DNS subdomains, and virtual hosts.",
             executable = "gobuster",
-            state = InstallationState.INSTALLED,
+            state = InstallationState.NOT_INSTALLED,
             iconRes = R.drawable.ic_cat_web,
             version = "3.6.0",
+            packageName = "gobuster",
             examples = listOf(
                 "gobuster dir -u http://target.com -w /usr/share/wordlists/dirb/common.txt"
             )
@@ -362,8 +371,9 @@ object ToolRegistry {
             description = "Fast web fuzzer",
             fullDescription = "Fast web fuzzer written in Go for discovering endpoints, params, and virtual hosts.",
             executable = "ffuf",
-            state = InstallationState.INSTALLED,
+            state = InstallationState.NOT_INSTALLED,
             iconRes = R.drawable.ic_cat_web,
+            packageName = "ffuf",
             examples = listOf(
                 "ffuf -u http://target.com/FUZZ -w wordlist.txt"
             )
@@ -377,6 +387,7 @@ object ToolRegistry {
             executable = "nikto",
             state = InstallationState.NOT_INSTALLED,
             iconRes = R.drawable.ic_cat_web,
+            packageName = "nikto",
             examples = listOf(
                 "nikto -h http://target.com"
             )

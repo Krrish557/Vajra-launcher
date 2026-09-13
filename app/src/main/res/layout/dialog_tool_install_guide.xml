@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_card_cyber"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- Header -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:contentDescription="@null"
+            android:src="@drawable/ic_cat_tools"
+            app:tint="@color/vajra_accent_cyan" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_weight="1"
+            android:letterSpacing="0.05"
+            android:text="TACTICAL INSTALL GUIDE"
+            android:textColor="@color/vajra_text_primary"
+            android:textSize="13sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/guideStatusBadge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_badge_uninstalled"
+            android:letterSpacing="0.04"
+            android:paddingHorizontal="6dp"
+            android:paddingVertical="2dp"
+            android:text="NOT INSTALLED"
+            android:textColor="@color/vajra_badge_error_text"
+            android:textSize="9sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/guideToolInfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="Tool: Netdiscover • Environment: Debian GNU/Linux"
+        android:textColor="@color/vajra_text_secondary"
+        android:textSize="11sp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@color/vajra_border_dark" />
+
+    <TextView
+        android:id="@+id/guideDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:lineSpacingExtra="2dp"
+        android:text="The binary for this tool was not detected in the isolated environment. Execute the commands below in Termux to configure it."
+        android:textColor="@color/vajra_text_secondary"
+        android:textSize="12sp" />
+
+    <!-- Command Snippet Box -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/bg_code_box"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:letterSpacing="0.04"
+            android:text="COMMANDS (PASTE IN TERMUX)"
+            android:textColor="@color/vajra_text_tertiary"
+            android:textSize="9sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/txtInstallCommands"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:fontFamily="monospace"
+            android:text="proot-distro login debian\napt update &amp;&amp; apt install -y netdiscover"
+            android:textColor="@color/vajra_text_code"
+            android:textSize="11sp" />
+    </LinearLayout>
+
+    <!-- Progress Indicator (Hidden by default) -->
+    <LinearLayout
+        android:id="@+id/layoutRecheckingProgress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+        <ProgressBar
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:indeterminateTint="@color/vajra_accent_cyan" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="Verifying binary in environment..."
+            android:textColor="@color/vajra_text_secondary"
+            android:textSize="11sp" />
+    </LinearLayout>
+
+    <!-- Re-check feedback text -->
+    <TextView
+        android:id="@+id/txtVerificationFeedback"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:textSize="11sp"
+        android:visibility="gone" />
+
+    <!-- Button Row 1: Copy & Launch Termux -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="14dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/btnCopyInstallCmd"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="6dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_card_clickable"
+            android:gravity="center"
+            android:letterSpacing="0.04"
+            android:text="COPY COMMAND"
+            android:textColor="@color/vajra_text_primary"
+            android:textSize="11sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/btnLaunchTermux"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="6dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_button_primary"
+            android:gravity="center"
+            android:letterSpacing="0.04"
+            android:text="LAUNCH TERMUX"
+            android:textColor="@color/color_primary_btn_text"
+            android:textSize="11sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <!-- Button Row 2: Re-check & Dismiss -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/btnRecheckStatus"
+            android:layout_width="0dp"
+            android:layout_height="36dp"
+            android:layout_marginEnd="6dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_card_clickable"
+            android:gravity="center"
+            android:letterSpacing="0.04"
+            android:text="RE-CHECK STATUS"
+            android:textColor="@color/vajra_accent_cyan"
+            android:textSize="11sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/btnDismissGuide"
+            android:layout_width="0dp"
+            android:layout_height="36dp"
+            android:layout_marginStart="6dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_card_clickable"
+            android:gravity="center"
+            android:letterSpacing="0.04"
+            android:text="DISMISS"
+            android:textColor="@color/vajra_text_secondary"
+            android:textSize="11sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+</LinearLayout>
