@@ -3,8 +3,8 @@ plugins {
     id("org.jetbrains.kotlin.android")
 }
 
-val appVersionCode = 14
-val appVersionBase = "1.4"
+val appVersionCode = 15
+val appVersionBase = "1.5"
 
 fun getGitCommitSummary(): String {
     return try {
