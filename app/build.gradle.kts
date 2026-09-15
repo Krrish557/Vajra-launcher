@@ -3,23 +3,23 @@ plugins {
     id("org.jetbrains.kotlin.android")
 }
 
-val appVersionCode = 15
-val appVersionBase = "1.5"
+val appVersionCode = 1
+val appVersionBase = "0.1"
 
 fun getGitCommitSummary(): String {
     return try {
         val process = ProcessBuilder("git", "log", "-1", "--pretty=%s").start()
         process.inputStream.bufferedReader().readText().trim()
     } catch (_: Exception) {
-        "Lucario"
+        "Tyranitar"
     }
 }
 
-val gitCommit = getGitCommitSummary().ifEmpty { "Lucario: Release" }
+val gitCommit = getGitCommitSummary().ifEmpty { "Tyranitar: Release" }
 val pokemonName = if (gitCommit.contains(":")) {
     gitCommit.substringBefore(":").trim()
 } else {
-    "Lucario"
+    "Tyranitar"
 }
 val computedVersionName = "$appVersionBase - $pokemonName"
 
@@ -76,4 +76,6 @@ dependencies {
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("androidx.recyclerview:recyclerview:1.3.2")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.1")
+
+    testImplementation("junit:junit:4.13.2")
 }

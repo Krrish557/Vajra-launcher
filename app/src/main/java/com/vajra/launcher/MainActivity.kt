@@ -154,12 +154,27 @@ class MainActivity : AppCompatActivity() {
                 if (backStack.isNotEmpty()) {
                     val prevScreen = backStack.pop()
                     navigateTo(prevScreen, addToBackStack = false)
-                } else if (currentScreen !is Screen.Home) {
-                    navigateTo(Screen.Home, addToBackStack = false)
                 } else {
-                    // Already at Home screen root of the launcher.
-                    // Strictly consume back press and stay on Home.
-                    // The only way to open the default/alternate launcher is via the Apps screen card.
+                    // Graceful hierarchical fallback if backStack was cleared
+                    when (val screen = currentScreen) {
+                        is Screen.ToolConfig -> navigateTo(Screen.ToolDetails(screen.toolId), addToBackStack = false)
+                        is Screen.ToolDetails -> {
+                            val tool = com.vajra.launcher.data.tools.ToolRegistry.getTool(screen.toolId)
+                            val catId = tool?.categoryId ?: "recon"
+                            navigateTo(Screen.ToolList(catId), addToBackStack = false)
+                        }
+                        is Screen.ToolList -> navigateTo(Screen.CyberCategories, addToBackStack = false)
+                        is Screen.Customization -> navigateTo(Screen.SystemInfo, addToBackStack = false)
+                        is Screen.GlobalSearch -> navigateTo(Screen.Home, addToBackStack = false)
+                        is Screen.CyberCategories, is Screen.Apps, is Screen.SystemInfo -> {
+                            navigateTo(Screen.Home, addToBackStack = false)
+                        }
+                        is Screen.Home, null -> {
+                            // Already at Home screen root of the launcher.
+                            // Strictly consume back press and stay on Home.
+                            // The only way to open the default/alternate launcher is via the Apps screen card.
+                        }
+                    }
                 }
             }
         })
